@@ -33,6 +33,8 @@ INSTALLED_APPS = [
     'products', 
     'orders',  
     'payments',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
