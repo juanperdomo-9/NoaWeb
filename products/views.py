@@ -7,6 +7,7 @@ from django.core.mail import send_mail
 from decimal import Decimal
 from django.db import transaction
 import requests
+import resend
 
 def product_list(request):
     products = Product.objects.all()
@@ -302,22 +303,23 @@ Nueva compra
 """
 
             # 📧 cliente
-            send_mail(
-                subject='Confirmación de compra',
-                message=f"Hola {order.name}, gracias por tu compra!\n\n{full_message}",
-                from_email='noapaginaweb@gmail.com',
-                recipient_list=[order.email],
-                fail_silently=True
-            )
+            resend.Emails.send({
+                "from": "NOA <onboarding@resend.dev>",
+                "to": [order.email],
+                "subject": "Confirmación de compra",
+                "html": f"""
+                    <h2>Hola {order.name}, gracias por tu compra</h2>
+                    <pre>{full_message}</pre>
+                """
+            })
 
             # 📧 dueño
-            send_mail(
-                subject=f'Nueva venta #{order.id}',
-                message=full_message,
-                from_email='noapaginaweb@gmail.com',
-                recipient_list=['noapaginaweb@gmail.com'],
-                fail_silently=True
-            )
+            resend.Emails.send({
+                "from": "NOA <onboarding@resend.dev>",
+                "to": ["noapaginaweb@gmail.com"],
+                "subject": f"Nueva venta #{order.id}",
+                "html": f"<pre>{full_message}</pre>"
+            })
 
         return JsonResponse({"order_id": order.id})
 
@@ -363,7 +365,7 @@ Nueva compra
 💰 Total: ${order.total}
 """
 
-            send_mail(
+            resend.Emails.send(
                 subject='Confirmación de compra',
                 message=f"Hola {order.name}, gracias por tu compra!\n\n{full_message}",
                 from_email='noapaginaweb@gmail.com',
@@ -371,7 +373,7 @@ Nueva compra
                 fail_silently=True
             )
 
-            send_mail(
+            resend.Emails.send(
                 subject=f'Nueva venta #{order.id}',
                 message=full_message,
                 from_email='noapaginaweb@gmail.com',
