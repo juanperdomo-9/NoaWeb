@@ -227,15 +227,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
-
-if (!data.shipping || !data.payment_method) {
-    showToast("Seleccioná envío y forma de pago");
-    btn.disabled = false;
-    btn.innerText = "Pagar ahora";
-    isProcessing = false;
-    return;
-}
 </script>
-
 </body>
 </html>
