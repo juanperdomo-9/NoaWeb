@@ -1,5 +1,8 @@
 import os
 from pathlib import Path
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -14,8 +17,8 @@ SECRET_KEY = 'django-insecure-_)7kfff9+(-o4cw#d3yqe6(od9#s_q6s*_xkp-)-ib))mrrp&e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-#ALLOWED_HOSTS = ['noaweb.onrender.com']
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['noaweb.onrender.com']
+
 
 
 # Application definition
@@ -124,3 +127,11 @@ EMAIL_HOST_PASSWORD = 'wrksgfluvcymvbzc'
 
 MOBBEX_API_KEY = "~cTvbRz0_0BZlZW1LRsy2srIQKuGjEI6WhT8tX3S"
 MOBBEX_ACCESS_TOKEN = "4416749d-465a-431b-9070-220a271ac0f1"
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUD_NAME'),
+    'API_KEY': os.environ.get('API_KEY'),
+    'API_SECRET': os.environ.get('API_SECRET'),
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
