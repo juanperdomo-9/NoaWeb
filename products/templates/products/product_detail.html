@@ -57,14 +57,14 @@
     <div class="">
         {% if product.image %}
             <img id="mainImage"
-                src="{{ product.image.url }}" 
+                src="{{ product.image}}" 
                 class="w-full max-w-full md:max-w-[520px] h-auto md:h-[520px] object-cover rounded-none">
         {% endif %}
 
         <!-- MINI GALERÍA -->
         <div class="flex gap-2 mt-4 flex-wrap">
             {% for img in product.images.all %}
-                <img src="{{ img.image.url }}"
+                <img src="{{ img.image}}"
                     onclick="changeImage(this)"
                     class="w-16 h-16 object-cover cursor-pointer border border-[#E2D5C9] hover:border-[#8B6B5A] transition">
             {% endfor %}
