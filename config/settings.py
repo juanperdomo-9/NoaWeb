@@ -132,10 +132,18 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 MOBBEX_API_KEY = os.environ.get('MOBBEX_API_KEY')
 MOBBEX_ACCESS_TOKEN = os.environ.get('MOBBEX_ACCESS_TOKEN')
 
+
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUD_NAME'),
-    'API_KEY': os.environ.get('API_KEY'),
-    'API_SECRET': os.environ.get('API_SECRET'),
+    "CLOUD_NAME": "dxu4j2bpx",
+    "API_KEY": "863884537424629",
+    "API_SECRET": "lMKirs1rF39xSMHbnG5hb3TlY9k"
 }
+
+cloudinary.config(
+    cloud_name="dxu4j2bpx",
+    api_key="863884537424629",
+    api_secret="lMKirs1rF39xSMHbnG5hb3TlY9k",
+)
+
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

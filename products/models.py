@@ -1,15 +1,27 @@
 from django.db import models
-from cloudinary.models import CloudinaryField
 import cloudinary.uploader
+
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
-    image = models.URLField ('image', null=True, blank=True)
+
+    image = models.URLField(blank=True, null=True)
+    image_file = models.ImageField(upload_to='temp/', blank=True, null=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if self.image_file:
+            uploaded = cloudinary.uploader.upload(self.image_file)
+            self.image = uploaded.get('secure_url')
+            self.image_file = None
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
+
 
 class ProductVariant(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='variants')
@@ -20,6 +32,7 @@ class ProductVariant(models.Model):
 
     class Meta:
         unique_together = ('product', 'color', 'size')
+
 
 class Order(models.Model):
     name = models.CharField(max_length=100)
@@ -47,19 +60,10 @@ class OrderItem(models.Model):
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
-    image = models.URLField('image', null=True, blank=True)
-    color = models.CharField(max_length=50, blank=True, null=True)
 
-    def __str__(self):
-        return f"{self.product.name} - {self.color}"
-    
-
-class ProductImage(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
-    
     image = models.URLField(blank=True, null=True)
     image_file = models.ImageField(upload_to='temp/', blank=True, null=True)
-    
+
     color = models.CharField(max_length=50, blank=True, null=True)
 
     def save(self, *args, **kwargs):
@@ -69,3 +73,6 @@ class ProductImage(models.Model):
             self.image_file = None
 
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.product.name} - {self.color}"
