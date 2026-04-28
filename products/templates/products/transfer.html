@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transferencia</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+    tailwind.config = {
+    theme: {
+        extend: {
+        colors: {
+            primary: '#8B6B5A',
+            accent: '#C7A17A',
+            background: '#FFFFFF',
+            surface: '#F3ECE6',
+            soft: '#E2D5C9',
+            text: '#000000'
+        }
+        }
+    }
+    }
+    </script>
+</head>
+
+<body class="bg-white text-black">
+
+<div class="min-h-screen flex items-center justify-center px-4 md:px-6">
+
+    <div class="w-full max-w-xl bg-[#F3ECE6] p-5 md:p-8 rounded-2xl md:rounded-3xl shadow-lg space-y-5 md:space-y-6">
+
+        <!-- 🧾 ID PEDIDO -->
+        <div class="text-center text-xs md:text-sm text-gray-500">
+            Pedido 
+        </div>
+
+        <!-- TÍTULO -->
+        <div class="text-center space-y-1 md:space-y-2">
+            <h1 class="text-xl md:text-2xl font-semibold">
+                Transferencia bancaria
+            </h1>
+            <p class="text-xs md:text-sm text-gray-600">
+                Completá el pago para confirmar tu compra
+            </p>
+        </div>
+
+        <!-- DESCUENTO -->
+        <div class="bg-[#C7A17A]/20 text-center py-3 rounded-xl text-xs md:text-sm font-medium space-y-1">
+            <div>💸 Tenés un 20% de descuento aplicado por transferencia</div>
+            <div class="text-sm md:text-base font-semibold">
+                Total: ${{ order.total }}
+            </div>
+        </div>
+
+        <!-- DATOS -->
+        <div class="space-y-3 md:space-y-4 text-xs md:text-sm">
+
+            <!-- ALIAS -->
+            <div class="flex justify-between items-center border-b border-[#E2D5C9] pb-2 gap-2">
+                <span class="text-gray-500">Alias</span>
+                <div class="flex gap-2 items-center">
+                    <span id="alias" class="font-medium text-right break-all">
+                        noalaplata.belo
+                    </span>
+                    <button onclick="copyAlias()" 
+                        class="text-xs text-[#8B6B5A] hover:underline whitespace-nowrap">
+                        Copiar
+                    </button>
+                </div>
+            </div>
+
+            <!-- CBU -->
+            <div class="flex justify-between border-b border-[#E2D5C9] pb-2 gap-2">
+                <span class="text-gray-500">CBU</span>
+                <span class="font-medium text-right break-all">
+                    0000139300000015414764
+                </span>
+            </div>
+
+            <!-- TITULAR -->
+            <div class="flex justify-between border-b border-[#E2D5C9] pb-2">
+                <span class="text-gray-500">Titular</span>
+                <span class="font-medium text-right">
+                    Adrian Alberto Rossi
+                </span>
+            </div>
+
+        </div>
+
+        <!-- INSTRUCCIONES -->
+        <div class="text-xs md:text-sm text-gray-600 text-center px-2">
+            Una vez realizada la transferencia, enviá el comprobante por WhatsApp 👇
+        </div>
+
+        <!-- WHATSAPP -->
+        <a 
+            href="https://wa.me/5492215946221?text=Hola,%20ya%20realicé%20la%20transferencia%20del%20pedido%20%23{{ order.id }}%20por%20un%20total%20de%20%24{{ order.total }}"
+            target="_blank"
+            class="block text-center bg-[#8B6B5A] text-white py-4 rounded-xl text-sm md:text-base font-medium 
+                   hover:bg-[#755646] transition duration-300"
+        >
+            Enviar comprobante por WhatsApp
+        </a>
+
+        <!-- VOLVER -->
+        <a href="/" 
+           class="block text-center text-xs md:text-sm text-gray-500 hover:text-black">
+            Volver a la tienda
+        </a>
+
+    </div>
+
+</div>
+
+<!-- JS -->
+<script>
+function copyAlias() {
+    const alias = document.getElementById("alias").innerText;
+    navigator.clipboard.writeText(alias);
+    alert("Alias copiado");
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tienda</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+    tailwind.config = {
+    theme: {
+        extend: {
+        colors: {
+            primary: '#8B6B5A',
+            accent: '#C7A17A',
+            background: '#FFFFFF',
+            surface: '#F3ECE6',
+            soft: '#E2D5C9',
+            text: '#000000'
+        }
+        }
+    }
+    }
+    </script>
+</head>
+
+<body class="bg-white text-black">
+
+<!-- 🧢 NAVBAR -->
+<nav class="bg-[#8B6B5A] backdrop-blur-xl border-b border-[#C7A17A] px-4 md:px-8 py-4 md:py-5 flex justify-between items-center sticky top-0 z-50">
+
+    <a href="/" class="text-lg md:text-xl font-semibold text-white hover:text-[#C7A17A] transition">
+        NOA
+    </a>
+
+    <a href="/cart/" class="relative inline-block text-xl md:text-2xl text-white transition duration-300 hover:scale-125 hover:-rotate-6">
+        🛒
+
+        <span id="cart-count"
+            class="absolute -top-1 -right-2 bg-[#C7A17A] text-white text-xs px-2 py-0.5 rounded-full">
+            {{ cart_count }}
+        </span>
+    </a>
+
+</nav>
+
+<!-- GRID -->
+<div class="max-w-7xl mx-auto px-4 md:px-12 py-6 md:py-14 
+            grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 
+            gap-x-4 md:gap-x-8 gap-y-6 md:gap-y-14">
+
+{% for product in products %}
+<a href="{% url 'product_detail' product.id %}" 
+   class="group block cursor-pointer bg-[#F3ECE6] rounded-2xl p-2 md:p-3 transition duration-300 hover:shadow-md hover:-translate-y-1">
+
+    <div class="overflow-hidden rounded-xl">
+        {% if product.image %}
+        <img src="{{ product.image.url }}"
+             class="w-full h-[200px] md:h-[380px] object-cover transition duration-700 ease-out group-hover:scale-[1.04]" >
+        {% endif %}
+    </div>
+
+    <div class="mt-3 md:mt-4 px-1 space-y-1">
+        <h2 class="text-sm md:text-base font-semibold tracking-tight group-hover:opacity-70 transition">
+            {{ product.name }}
+        </h2>
+
+        {% if product.variants.first %}
+        <p class="text-gray-600 text-xs md:text-sm">
+            ${{ product.variants.first.price }}
+        </p>
+        {% endif %}
+    </div>
+
+</a>
+{% endfor %}
+
+</div>
+
+</body>
+</html>

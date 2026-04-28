@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Carrito</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+    tailwind.config = {
+    theme: {
+        extend: {
+        colors: {
+            primary: '#8B6B5A',
+            accent: '#C7A17A',
+            background: '#FFFFFF',
+            surface: '#F3ECE6',
+            soft: '#E2D5C9',
+            text: '#000000'
+        }
+        }
+    }
+    }
+    </script>
+</head>
+
+<body class="bg-white text-black">
+
+<input type="hidden" id="csrf-token" value="{{ csrf_token }}">
+
+<!-- 🧢 NAVBAR -->
+<nav class="bg-[#8B6B5A] backdrop-blur-xl border-b border-[#C7A17A] px-4 md:px-8 py-4 md:py-5 flex justify-between items-center sticky top-0 z-50">
+
+    <a href="/" class="text-lg md:text-xl font-semibold text-white hover:text-[#C7A17A] transition">
+        NOA
+    </a>
+
+    <a href="/cart/" class="relative inline-block text-xl md:text-2xl text-white transition duration-300 hover:scale-125 hover:-rotate-6">
+        🛒
+
+        <span id="cart-count"
+            class="absolute -top-1 -right-2 bg-[#C7A17A] text-white text-xs px-2 py-0.5 rounded-full">
+            {{ cart_count }}
+        </span>
+    </a>
+
+</nav>
+
+<div class="max-w-5xl mx-auto px-4 md:px-6 py-6 md:py-14">
+
+    <h1 class="text-2xl md:text-3xl font-bold mb-6 md:mb-8">Carrito</h1>
+
+    {% if items %}
+
+        <div class="space-y-4 md:space-y-8">
+
+        {% for item in items %}
+        <div class="bg-[#F3ECE6] rounded-2xl p-4 md:p-6 border border-[#E2D5C9] hover:shadow-lg transition duration-300 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+
+            <!-- INFO -->
+            <div>
+                <h2 class="text-base md:text-lg font-semibold tracking-tight">
+                    {{ item.product.name }}
+                </h2>
+                <p class="text-gray-500 text-xs md:text-sm mt-1">
+                    {{ item.color }} / {{ item.size }}
+                </p>
+            </div>
+
+            <!-- ACCIONES -->
+            <div class="flex items-center justify-between md:justify-end gap-4 md:gap-6">
+
+                <!-- CANTIDAD -->
+                <div class="flex items-center border border-[#E2D5C9] rounded-lg overflow-hidden">
+
+                    <button onclick="updateQuantity({{ forloop.counter0 }}, '-1')"
+                            class="px-3 py-2 text-gray-700 hover:bg-[#8B6B5A] hover:text-white transition">
+                        −
+                    </button>
+
+                    <span class="px-4 text-sm font-medium">
+                        {{ item.quantity }}
+                    </span>
+
+                    <button onclick="updateQuantity({{ forloop.counter0 }}, '1')"
+                            class="px-3 py-2 text-gray-700 hover:bg-[#8B6B5A] hover:text-white transition">
+                        +
+                    </button>
+
+                </div>
+
+                <!-- PRECIO -->
+                <p class="text-base md:text-lg font-semibold tracking-tight">
+                    ${{ item.price|floatformat:0 }}
+                </p>
+
+                <!-- BORRAR -->
+                <button onclick="removeItem({{ forloop.counter0 }})"
+                        class="text-gray-500 hover:text-red-500 transition text-lg">
+                    ✕
+                </button>
+
+            </div>
+
+        </div>
+        {% endfor %}
+
+        </div>
+
+        <!-- TOTAL -->
+        <div class="mt-8 md:mt-12 pt-4 md:pt-6 border-t border-[#E2D5C9] flex justify-between items-center">
+            <span class="text-gray-600 text-base md:text-lg">Total</span>
+            <span class="text-2xl md:text-4xl font-bold tracking-tight">
+                ${{ total }}
+            </span>
+        </div>
+
+        <!-- BOTÓN -->
+        <div class="mt-6">
+            <a href="/checkout/" 
+            class="w-full block text-center bg-[#8B6B5A] text-white py-4 rounded-xl md:rounded-2xl text-base md:text-lg font-semibold 
+                    hover:bg-[#755646] transition shadow-lg">
+                Finalizar compra
+            </a>
+        </div>
+
+    {% else %}
+        <p class="text-gray-600 text-sm md:text-base">
+            Tu carrito está vacío
+        </p>
+    {% endif %}
+
+</div>
+
+<script>
+function getCSRFToken() {
+    return document.getElementById("csrf-token").value;
+}
+
+function removeItem(index) {
+    fetch('/remove-from-cart/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCSRFToken()
+        },
+        body: JSON.stringify({ index })
+    }).then(() => location.reload());
+}
+
+function updateQuantity(index, change) {
+    fetch('/update-cart/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCSRFToken()
+        },
+        body: JSON.stringify({
+            index: index,
+            change: parseInt(change)
+        })
+    }).then(() => location.reload());
+}
+</script>
+
+</body>
+</html>

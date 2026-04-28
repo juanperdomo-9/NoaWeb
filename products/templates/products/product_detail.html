@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ product.name }}</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+    tailwind.config = {
+    theme: {
+        extend: {
+        colors: {
+            primary: '#8B6B5A',
+            accent: '#C7A17A',
+            background: '#FFFFFF',
+            surface: '#F3ECE6',
+            soft: '#E2D5C9',
+            text: '#000000'
+        }
+        }
+    }
+    }
+    </script>
+
+</head>
+
+<body class="bg-white text-black">
+
+<input type="hidden" id="csrf-token" value="{{ csrf_token }}">
+
+<!-- NAVBAR -->
+<nav class="bg-[#8B6B5A] backdrop-blur-xl border-b border-[#C7A17A] px-4 md:px-8 py-4 md:py-5 flex justify-between items-center sticky top-0 z-50">
+
+    <a href="/" class="text-lg md:text-xl font-semibold text-white hover:text-[#C7A17A] transition">
+        NOA
+    </a>
+
+    <a href="/cart/" class="relative inline-block text-xl md:text-2xl text-white transition duration-300 hover:scale-125 hover:-rotate-6">
+        🛒
+
+        <span id="cart-count"
+            class="absolute -top-1 -right-2 bg-[#C7A17A] text-white text-xs px-2 py-0.5 rounded-full">
+            {{ cart_count }}
+        </span>
+    </a>
+
+</nav>
+
+<!-- CONTENIDO -->
+<div class="max-w-6xl mx-auto px-4 md:px-6 py-6 md:py-12">
+
+<div class="grid md:grid-cols-[1.2fr_0.8fr] gap-6 md:gap-12">
+
+    <!-- IMAGEN -->
+    <div class="">
+        {% if product.image %}
+            <img id="mainImage"
+                src="{{ product.image.url }}" 
+                class="w-full max-w-full md:max-w-[520px] h-auto md:h-[520px] object-cover rounded-none">
+        {% endif %}
+
+        <!-- MINI GALERÍA -->
+        <div class="flex gap-2 mt-4 flex-wrap">
+            {% for img in product.images.all %}
+                <img src="{{ img.image.url }}"
+                    onclick="changeImage(this)"
+                    class="w-16 h-16 object-cover cursor-pointer border border-[#E2D5C9] hover:border-[#8B6B5A] transition">
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- INFO -->
+    <div class="flex flex-col space-y-6 w-full items-start justify-start self-start ml-0 text-left">
+
+        <!-- NOMBRE -->
+        <h1 class="text-2xl md:text-4xl font-medium tracking-tight">
+            {{ product.name }}
+        </h1>
+
+        <!-- DESCRIPCIÓN -->
+        <p class="text-gray-500 text-sm md:text-base leading-relaxed w-full">
+            {{ product.description }}
+        </p>
+
+        <!-- PRECIO -->
+        {% if product.variants.first %}
+            <p class="text-xl md:text-2xl font-medium tracking-tight">
+                ${{ product.variants.first.price }}
+            </p>
+        {% endif %}
+
+        <!-- COLOR -->
+        <div class="space-y-3">
+            <h3 class="text-xs uppercase tracking-widest text-gray-400">
+                Color
+            </h3>
+
+            <div id="colors" class="flex gap-2 flex-wrap">
+                {% for color in colors %}
+                    <span onclick="selectColor(this)"
+                          class="text-sm border border-[#E2D5C9] px-4 py-2 cursor-pointer 
+                                 hover:border-[#8B6B5A] transition text-left">
+                        {{ color }}
+                    </span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- TALLE -->
+        <div class="space-y-3">
+            <h3 class="text-xs uppercase tracking-widest text-gray-400">
+                Talle
+            </h3>
+
+            {% if sizes|length == 1 %}
+                <p class="text-sm text-gray-600 tracking-wide">Talle único</p>
+
+                <div id="sizes" class="hidden">
+                    <span>{{ sizes.0 }}</span>
+                </div>
+            {% else %}
+                <div id="sizes" class="flex gap-2 flex-wrap">
+                    {% for size in sizes %}
+                        <span onclick="selectSize(this)"
+                            class="text-sm border border-[#E2D5C9] px-4 py-2 cursor-pointer 
+                                    hover:border-[#8B6B5A] transition text-left">
+                            {{ size }}
+                        </span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- BOTÓN -->
+        <button onclick="addToCart()"
+                class="w-full md:w-auto px-6 md:px-10 text-center md:text-left bg-[#8B6B5A] text-white py-4 text-base md:text-sm tracking-wide 
+                    hover:bg-[#755646] transition disabled:bg-gray-300">
+            Agregar al carrito
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+<!-- TOAST -->
+<div id="toast"
+     class="fixed bottom-6 right-6 bg-black text-white text-sm px-5 py-3 opacity-0 transition">
+</div>
+
+<script>
+const isSingleSize = {{ sizes|length }} === 1;
+const singleSizeValue = "{{ sizes.0|default:'' }}";
+</script>
+
+<script>
+let selectedColor = null;
+let selectedSize = null;
+
+function selectColor(el) {
+    document.querySelectorAll('#colors span').forEach(btn => {
+        btn.classList.remove('border-[#8B6B5A]');
+    });
+    el.classList.add('border-[#8B6B5A]');
+    selectedColor = el.innerText.trim();
+    checkStock();
+}
+
+function selectSize(el) {
+    document.querySelectorAll('#sizes span').forEach(btn => {
+        btn.classList.remove('border-[#8B6B5A]');
+    });
+    el.classList.add('border-[#8B6B5A]');
+    selectedSize = el.innerText.trim();
+    checkStock();
+}
+
+function showToast(msg = "Producto agregado") {
+    const toast = document.getElementById("toast");
+    toast.innerText = msg;
+
+    toast.classList.remove("opacity-0");
+
+    setTimeout(() => {
+        toast.classList.add("opacity-0");
+    }, 2000);
+}
+
+function addToCart() {
+
+    if (!selectedSize && isSingleSize) {
+        selectedSize = singleSizeValue;
+    }
+
+    if (!selectedColor || !selectedSize) {
+        alert("Seleccioná color y talle");
+        return;
+    }
+
+    const csrfToken = document.getElementById("csrf-token").value;
+
+    fetch('/add-to-cart/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({
+            product_id: {{ product.id }},
+            color: selectedColor,
+            size: selectedSize
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        showToast();
+
+        const counter = document.getElementById("cart-count");
+        if (counter) {
+            counter.innerText = data.cart_count;
+        }
+    });
+}
+
+function checkStock() {
+
+    if (!selectedColor || !selectedSize) return;
+
+    const key = `${selectedColor.toLowerCase()}-${selectedSize.toLowerCase()}`;
+    const stock = stockMap[key];
+
+    const btn = document.querySelector("button[onclick='addToCart()']");
+    const msg = document.getElementById("stock-message");
+
+    // ❌ Sin stock
+    if (!stock || stock <= 0) {
+        btn.disabled = true;
+        btn.innerText = "Sin stock";
+
+        msg.innerText = "Sin stock disponible";
+        msg.classList.remove("text-gray-500");
+        msg.classList.add("text-red-500");
+
+        return;
+    }
+
+    // ✅ Con stock
+    btn.disabled = false;
+    btn.innerText = "Agregar al carrito";
+
+    msg.innerText = `Stock disponible: ${stock}`;
+    msg.classList.remove("text-red-500");
+    msg.classList.add("text-gray-500");
+}
+
+const stockMap = {{ stock_map|safe }};
+
+window.addEventListener("DOMContentLoaded", () => {
+    const sizes = document.querySelectorAll('#sizes span');
+
+    if (sizes.length === 1) {
+        selectedSize = sizes[0].innerText.trim();
+    }
+});
+
+function changeImage(el) {
+    document.getElementById("mainImage").src = el.src;
+}
+</script>
+
+</body>
+</html>
