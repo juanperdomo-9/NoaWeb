@@ -307,7 +307,7 @@ Nueva compra
 
             # 📧 cliente
             resend.Emails.send({
-                "from": "NOA <onboarding@resend.dev>",
+                "from": "NOA <noreply@noaonline.com.ar>",
                 "to": [order.email],
                 "subject": "Confirmación de compra",
                 "html": f"""
@@ -318,7 +318,7 @@ Nueva compra
 
             # 📧 dueño
             resend.Emails.send({
-                "from": "NOA <onboarding@resend.dev>",
+                "from": "NOA <noreply@noaonline.com.ar>",
                 "to": ["noapaginaweb@gmail.com"],
                 "subject": f"Nueva venta #{order.id}",
                 "html": f"<pre>{full_message}</pre>"
@@ -369,7 +369,7 @@ Nueva compra
 """
 
             resend.Emails.send({
-                "from": "NOA <onboarding@resend.dev>",
+                "from": "NOA <noreply@noaonline.com.ar>",
                 "to": [order.email],
                 "subject": "Confirmación de compra",
                 "html": f"""
@@ -379,7 +379,7 @@ Nueva compra
             })
 
             resend.Emails.send({
-                "from": "NOA <onboarding@resend.dev>",
+                "from": "NOA <noreply@noaonline.com.ar>",
                 "to": ["noapaginaweb@gmail.com"],
                 "subject": f"Nueva venta #{order.id}",
                 "html": f"<pre>{full_message}</pre>"

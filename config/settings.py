@@ -19,9 +19,11 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['noaweb.onrender.com']
-
-
+ALLOWED_HOSTS = [
+    'noaweb.onrender.com',
+    'www.noaonline.com.ar',
+    'noaonline.com.ar'
+]
 
 # Application definition
 
