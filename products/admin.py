@@ -59,7 +59,7 @@ class OrderAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ("📦 Pedido", {
-            'fields': ('id', 'created_at', 'is_paid', 'payment_method', 'total')
+            'fields': ('created_at', 'is_paid', 'payment_method', 'total')
         }),
         ("👤 Cliente", {
             'fields': ('name', 'email', 'phone', 'document')
