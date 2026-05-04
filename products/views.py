@@ -414,7 +414,7 @@ def mobbex_checkout(request, order_id):
         "total": float(order.total),
         "description": f"Pedido #{order.id}",
         "reference": str(order.id),
-        "return_url": "http://127.0.0.1:8000/success/",
+        "return_url": f"https://noaonline.com.ar/success/?order_id={order.id}",
         "customer": {
             "email": order.email,
             "name": order.name
@@ -437,37 +437,3 @@ def mobbex_checkout(request, order_id):
         "url": data.get("data", {}).get("url")
     })
 
-
-def mobbex_checkout(request, order_id):
-    from .models import Order
-
-    order = Order.objects.get(id=order_id)
-
-    url = "https://api.mobbex.com/p/checkout"
-
-    payload = {
-        "total": float(order.total),
-        "description": f"Pedido #{order.id}",
-        "reference": str(order.id),
-        "return_url": "http://127.0.0.1:8000/success/",
-        "customer": {
-            "email": order.email,
-            "name": order.name
-        }
-    }
-
-    headers = {
-        "x-api-key": settings.MOBBEX_API_KEY,
-        "x-access-token": settings.MOBBEX_ACCESS_TOKEN,
-        "Content-Type": "application/json"
-    }
-
-    response = requests.post(url, json=payload, headers=headers)
-
-    print("MOBBEX RESPONSE:", response.text)
-
-    data = response.json()
-
-    return JsonResponse({
-        "url": data.get("data", {}).get("url")
-    })

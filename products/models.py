@@ -33,20 +33,29 @@ class ProductVariant(models.Model):
     class Meta:
         unique_together = ('product', 'color', 'size')
 
-
 class Order(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
+    phone = models.CharField(max_length=30)
+
+    document = models.CharField(max_length=50, blank=True, default='')
+
     address = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
     postal_code = models.CharField(max_length=20)
-    total = models.DecimalField(max_digits=10, decimal_places=2)
-    created_at = models.DateTimeField(auto_now_add=True)
-    phone = models.CharField(max_length=30)
-    document = models.CharField(max_length=50, blank=True, default='')
     province = models.CharField(max_length=100, blank=True, default='')
+
     shipping = models.CharField(max_length=50, blank=True, default='')
     payment_method = models.CharField(max_length=50, blank=True, default='')
+
+    total = models.DecimalField(max_digits=10, decimal_places=2)
+
+    is_paid = models.BooleanField(default=False)  # 👈 CLAVE
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Pedido #{self.id} - {self.name}"
 
 
 class OrderItem(models.Model):
@@ -76,3 +85,4 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return f"{self.product.name} - {self.color}"
+
