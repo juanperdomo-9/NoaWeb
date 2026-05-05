@@ -37,34 +37,49 @@
     #catalogo {
         animation: fadeIn 0.8s ease;
     }
+
+    html {
+        scroll-behavior: smooth;
+    }
     </style>
 
 </head>
 
-<section id="home" class="relative h-screen flex flex-col justify-center items-center text-center 
-bg-gradient-to-b from-[#EDE3D9] via-[#E2D5C9] to-[#D8C7B8]">
+<body>
 
-    <div class="absolute inset-0 opacity-20 blur-3xl bg-[#C7A17A]"></div>
+<section id="home" class="relative h-screen w-full">
 
-    <h1 class="text-6xl md:text-8xl font-semibold tracking-widest text-[#8B6B5A] relative z-10">
-        NOA
-    </h1>
+    <!-- 🔥 IMAGEN COMO FONDO -->
+    <div class="absolute inset-0 bg-center bg-cover"
+        style="background-image: url('/media/products/imgfondo.jpeg');">
+    </div>
 
-    <p class="mt-4 text-gray-600 relative z-10">
-        Minimalismo, diseño y esencia
-    </p>
+    <!-- 🔥 OVERLAY OSCURO SUAVE -->
+    <div class="absolute inset-0 bg-black/30"></div>
 
-    <button onclick="enterStore()" 
-        class="mt-8 px-6 py-3 border border-[#8B6B5A] text-[#8B6B5A] rounded-full 
-               hover:bg-[#8B6B5A] hover:text-white transition duration-300 relative z-10">
-        Ver catálogo
-    </button>
+    <!-- 🔥 CONTENIDO -->
+    <div class="relative z-10 h-full flex flex-col justify-center items-center text-center">
+
+        <!-- MARCA -->
+        <h1 class="text-6xl md:text-8xl font-light tracking-[0.3em] text-white">
+            NOA
+        </h1>
+
+        <!-- SUB -->
+        <p class="mt-6 text-white/70 text-sm tracking-widest">
+            NEW COLLECTION
+        </p>
+
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white text-xs tracking-widest animate-bounce">
+            ↓ SCROLL
+        </div>
+
+    </div>
 
 </section>
 
 <!-- 🧢 NAVBAR -->
 <nav id="navbar" class="hidden bg-[#8B6B5A] border-b border-[#C7A17A] px-4 md:px-8 py-4 flex justify-between items-center sticky top-0 z-50">
-
     <a href="/" class="text-lg md:text-xl font-semibold text-white">
         NOA
     </a>
@@ -80,7 +95,7 @@ bg-gradient-to-b from-[#EDE3D9] via-[#E2D5C9] to-[#D8C7B8]">
 </nav>
 
 <!-- 🛍️ CATÁLOGO -->
-<section id="catalogo" class="hidden">
+<section id="catalogo">
 
 <div class="max-w-7xl mx-auto px-4 md:px-12 py-6 md:py-14 
             grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 
@@ -113,17 +128,17 @@ bg-gradient-to-b from-[#EDE3D9] via-[#E2D5C9] to-[#D8C7B8]">
 {% endfor %}
 
 </div>
-
 </section>
-
-<!-- 🔥 SCRIPT -->
-<script>
-function enterStore() {
-    document.getElementById("home").style.display = "none";
-    document.getElementById("catalogo").classList.remove("hidden");
-    document.getElementById("navbar").classList.remove("hidden");
-}
-</script>
-
 </body>
+<script>
+window.addEventListener("scroll", () => {
+    const navbar = document.getElementById("navbar");
+
+    if (window.scrollY > window.innerHeight * 0.7) {
+        navbar.classList.remove("hidden");
+    } else {
+        navbar.classList.add("hidden");
+    }
+});
+</script>
 </html>
