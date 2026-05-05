@@ -41,26 +41,22 @@
 
 </head>
 
-<body class="bg-[#F5EFEA] text-black">
+<section id="home" class="relative h-screen flex flex-col justify-center items-center text-center 
+bg-gradient-to-b from-[#EDE3D9] via-[#E2D5C9] to-[#D8C7B8]">
 
-<!-- 🔥 HOME -->
-<section id="home" 
-class="h-screen flex flex-col justify-center items-center text-center 
-bg-gradient-to-b from-[#F5EFEA] to-[#EDE3D9]">
-    <!-- Marca -->
-    <h1 class="text-6xl md:text-8xl font-semibold tracking-widest text-[#8B6B5A]">
+    <div class="absolute inset-0 opacity-20 blur-3xl bg-[#C7A17A]"></div>
+
+    <h1 class="text-6xl md:text-8xl font-semibold tracking-widest text-[#8B6B5A] relative z-10">
         NOA
     </h1>
 
-    <!-- Subtítulo -->
-    <p class="mt-4 text-gray-500 text-sm md:text-base">
+    <p class="mt-4 text-gray-600 relative z-10">
         Minimalismo, diseño y esencia
     </p>
 
-    <!-- Botón -->
     <button onclick="enterStore()" 
         class="mt-8 px-6 py-3 border border-[#8B6B5A] text-[#8B6B5A] rounded-full 
-               hover:bg-[#8B6B5A] hover:text-white transition duration-300">
+               hover:bg-[#8B6B5A] hover:text-white transition duration-300 relative z-10">
         Ver catálogo
     </button>
 
