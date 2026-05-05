@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
 <head>
     <title>NOA</title>
@@ -51,7 +52,7 @@
 
     <!-- 🔥 IMAGEN COMO FONDO -->
     <div class="absolute inset-0 bg-center bg-cover"
-        style="background-image: url('{{ MEDIA_URL }}products/imgfondo.jpeg');">
+        style="background-image: url('{% static 'img/imgfondo.jpeg' %}');">
     </div>
 
     <!-- 🔥 OVERLAY OSCURO SUAVE -->
