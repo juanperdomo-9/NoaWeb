@@ -23,6 +23,7 @@ ALLOWED_HOSTS = [
     'noaweb.onrender.com',
     'www.noaonline.com.ar',
     'noaonline.com.ar'
+    '*'
 ]
 
 # Application definition
