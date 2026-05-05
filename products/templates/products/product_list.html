@@ -51,7 +51,7 @@
 <section id="home" class="relative h-screen w-full">
 
     <!-- 🔥 IMAGEN COMO FONDO -->
-    <div class="absolute inset-0 bg-center bg-cover"
+    <div class="absolute inset-0 bg-black/30"></div>
         style="background-image: url('{% static 'img/imgfondo.jpeg' %}');">
     </div>
 
@@ -63,12 +63,11 @@
 
         <!-- MARCA -->
         <h1 class="text-6xl md:text-8xl font-light tracking-[0.3em] text-white">
-            NOA
         </h1>
 
         <!-- SUB -->
         <p class="mt-6 text-white/70 text-sm tracking-widest">
-            NEW COLLECTION
+            20% POR TRANSFERENCIA - 3 CUOTAS SIN INTERÉS
         </p>
 
         <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white text-xs tracking-widest animate-bounce">
@@ -80,12 +79,13 @@
 </section>
 
 <!-- 🧢 NAVBAR -->
-<nav id="navbar" class="hidden bg-[#8B6B5A] border-b border-[#C7A17A] px-4 md:px-8 py-4 flex justify-between items-center sticky top-0 z-50">
-    <a href="/" class="text-lg md:text-xl font-semibold text-white">
+<nav id="navbar" class="fixed top-0 left-0 w-full px-6 py-4 flex justify-between items-center z-50 transition-all duration-500">
+
+    <a href="/" class="text-lg font-light tracking-widest text-white">
         NOA
     </a>
 
-    <a href="/cart/" class="relative text-xl md:text-2xl text-white">
+    <a href="/cart/" class="relative text-xl text-white">
         🛒
         <span id="cart-count"
             class="absolute -top-1 -right-2 bg-[#C7A17A] text-white text-xs px-2 py-0.5 rounded-full">
@@ -139,6 +139,17 @@ window.addEventListener("scroll", () => {
         navbar.classList.remove("hidden");
     } else {
         navbar.classList.add("hidden");
+    }
+});
+</script>
+<script>
+window.addEventListener("scroll", () => {
+    const navbar = document.getElementById("navbar");
+
+    if (window.scrollY > window.innerHeight * 0.6) {
+        navbar.style.background = "#8B6B5A";
+    } else {
+        navbar.style.background = "transparent";
     }
 });
 </script>
