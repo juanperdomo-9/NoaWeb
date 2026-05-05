@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tienda</title>
+    <title>NOA</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -23,20 +23,57 @@
     }
     }
     </script>
+
+    <style>
+    #home {
+        animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    #catalogo {
+        animation: fadeIn 0.8s ease;
+    }
+    </style>
+
 </head>
 
 <body class="bg-white text-black">
 
-<!-- 🧢 NAVBAR -->
-<nav class="bg-[#8B6B5A] backdrop-blur-xl border-b border-[#C7A17A] px-4 md:px-8 py-4 md:py-5 flex justify-between items-center sticky top-0 z-50">
+<!-- 🔥 HOME -->
+<section id="home" class="h-screen flex flex-col justify-center items-center text-center">
 
-    <a href="/" class="text-lg md:text-xl font-semibold text-white hover:text-[#C7A17A] transition">
+    <!-- Marca -->
+    <h1 class="text-6xl md:text-8xl font-semibold tracking-widest text-[#8B6B5A]">
+        NOA
+    </h1>
+
+    <!-- Subtítulo -->
+    <p class="mt-4 text-gray-500 text-sm md:text-base">
+        Minimalismo, diseño y esencia
+    </p>
+
+    <!-- Botón -->
+    <button onclick="enterStore()" 
+        class="mt-8 px-6 py-3 border border-[#8B6B5A] text-[#8B6B5A] rounded-full 
+               hover:bg-[#8B6B5A] hover:text-white transition duration-300">
+        Ver catálogo
+    </button>
+
+</section>
+
+<!-- 🧢 NAVBAR -->
+<nav id="navbar" class="hidden bg-[#8B6B5A] border-b border-[#C7A17A] px-4 md:px-8 py-4 flex justify-between items-center sticky top-0 z-50">
+
+    <a href="/" class="text-lg md:text-xl font-semibold text-white">
         NOA
     </a>
 
-    <a href="/cart/" class="relative inline-block text-xl md:text-2xl text-white transition duration-300 hover:scale-125 hover:-rotate-6">
+    <a href="/cart/" class="relative text-xl md:text-2xl text-white">
         🛒
-
         <span id="cart-count"
             class="absolute -top-1 -right-2 bg-[#C7A17A] text-white text-xs px-2 py-0.5 rounded-full">
             {{ cart_count }}
@@ -45,24 +82,26 @@
 
 </nav>
 
-<!-- GRID -->
+<!-- 🛍️ CATÁLOGO -->
+<section id="catalogo" class="hidden">
+
 <div class="max-w-7xl mx-auto px-4 md:px-12 py-6 md:py-14 
             grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 
             gap-x-4 md:gap-x-8 gap-y-6 md:gap-y-14">
 
 {% for product in products %}
 <a href="{% url 'product_detail' product.id %}" 
-   class="group block cursor-pointer bg-[#F3ECE6] rounded-2xl p-2 md:p-3 transition duration-300 hover:shadow-md hover:-translate-y-1">
+   class="group block bg-[#F3ECE6] rounded-2xl p-2 md:p-3 transition duration-300 hover:shadow-md hover:-translate-y-1">
 
     <div class="overflow-hidden rounded-xl">
         {% if product.image %}
-        <img src="{{ product.image}}"
-             class="w-full h-[200px] md:h-[380px] object-cover transition duration-700 ease-out group-hover:scale-[1.04]" >
+        <img src="{{ product.image }}"
+             class="w-full h-[200px] md:h-[380px] object-cover transition duration-700 group-hover:scale-[1.04]">
         {% endif %}
     </div>
 
     <div class="mt-3 md:mt-4 px-1 space-y-1">
-        <h2 class="text-sm md:text-base font-semibold tracking-tight group-hover:opacity-70 transition">
+        <h2 class="text-sm md:text-base font-semibold tracking-tight">
             {{ product.name }}
         </h2>
 
@@ -77,6 +116,17 @@
 {% endfor %}
 
 </div>
+
+</section>
+
+<!-- 🔥 SCRIPT -->
+<script>
+function enterStore() {
+    document.getElementById("home").style.display = "none";
+    document.getElementById("catalogo").classList.remove("hidden");
+    document.getElementById("navbar").classList.remove("hidden");
+}
+</script>
 
 </body>
 </html>
