@@ -273,7 +273,7 @@ def create_order(request):
             total += 9000
 
         if data.get('payment_method') == 'transfer':
-            total = total * Decimal('0.8')
+            total = total * Decimal('0.75')
 
         order.total = total
         order.save()
