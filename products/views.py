@@ -457,5 +457,5 @@ def dashboard(request):
         'low_stock': low_stock,
     }
 
-    return render(request, 'dashboard.html', context)
+    return render(request, 'products/dashboard.html', context)
 
