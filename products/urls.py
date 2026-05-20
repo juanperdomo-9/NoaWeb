@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import product_list, product_detail, add_to_cart, cart_view, remove_from_cart, update_cart, clear_cart, checkout_view, success, create_order, transfer_view, mobbex_checkout
+from .views import product_list, product_detail, add_to_cart, cart_view, remove_from_cart, update_cart, clear_cart, checkout_view, success, create_order, transfer_view, mobbex_checkout, dashboard
 
 urlpatterns = [
     path('', product_list, name='product_list'),
@@ -14,4 +14,5 @@ urlpatterns = [
     path('create-order/', create_order, name='create_order'),
     path('transfer/<int:order_id>/', transfer_view, name='transfer'),
     path('mobbex/<int:order_id>/', mobbex_checkout, name='mobbex_checkout'),
+    path('dashboard/', dashboard, name='dashboard'),    
 ]
