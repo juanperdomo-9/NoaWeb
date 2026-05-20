@@ -1,57 +1,91 @@
 <!DOCTYPE html>
 
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 ```
-<script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
 
-<title>Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard NOA</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
 ```
 
 </head>
 
-<body class="bg-zinc-950 text-white min-h-screen p-8">
+<body class="bg-black text-white min-h-screen p-8">
 
 ```
-<h1 class="text-4xl font-bold mb-10">
-    Dashboard NOA
-</h1>
+<!-- HEADER -->
+
+<div class="mb-12">
+
+    <h1 class="text-5xl font-black mb-2">
+        Dashboard NOA
+    </h1>
+
+    <p class="text-zinc-500 text-lg">
+        Panel de administración y métricas
+    </p>
+
+</div>
+
+
+
+<!-- CARDS -->
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
 
-    <div class="bg-zinc-900 p-6 rounded-2xl">
-        <h2 class="text-zinc-400 mb-2">Productos</h2>
+    <div class="bg-gradient-to-br from-zinc-900 to-zinc-800 p-8 rounded-3xl border border-zinc-800 shadow-2xl">
 
-        <p class="text-4xl font-bold">
+        <p class="text-zinc-400 mb-3">
+            Productos
+        </p>
+
+        <h2 class="text-5xl font-bold">
             {{ total_products }}
-        </p>
+        </h2>
+
     </div>
 
-    <div class="bg-zinc-900 p-6 rounded-2xl">
-        <h2 class="text-zinc-400 mb-2">Pedidos</h2>
 
-        <p class="text-4xl font-bold">
+    <div class="bg-gradient-to-br from-zinc-900 to-zinc-800 p-8 rounded-3xl border border-zinc-800 shadow-2xl">
+
+        <p class="text-zinc-400 mb-3">
+            Pedidos
+        </p>
+
+        <h2 class="text-5xl font-bold">
             {{ total_orders }}
-        </p>
+        </h2>
+
     </div>
 
-    <div class="bg-zinc-900 p-6 rounded-2xl">
-        <h2 class="text-zinc-400 mb-2">Pagados</h2>
 
-        <p class="text-4xl font-bold text-green-400">
-            {{ paid_orders }}
+    <div class="bg-gradient-to-br from-green-950 to-green-900 p-8 rounded-3xl border border-green-800 shadow-2xl">
+
+        <p class="text-green-300 mb-3">
+            Pagados
         </p>
+
+        <h2 class="text-5xl font-bold text-white">
+            {{ paid_orders }}
+        </h2>
+
     </div>
 
 </div>
 
 
-<div class="bg-zinc-900 p-6 rounded-2xl mb-10">
 
-    <h2 class="text-2xl font-bold mb-6">
+<!-- ÚLTIMOS PEDIDOS -->
+
+<div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8 mb-10">
+
+    <h2 class="text-3xl font-bold mb-8">
         Últimos pedidos
     </h2>
 
@@ -59,22 +93,40 @@
 
         {% for order in recent_orders %}
 
-        <div class="flex justify-between border-b border-zinc-800 pb-4">
+        <div class="flex items-center justify-between bg-zinc-950 p-5 rounded-2xl">
 
             <div>
-                <p class="font-semibold">
+
+                <p class="font-bold text-lg">
                     {{ order.name }}
                 </p>
 
-                <p class="text-zinc-400 text-sm">
-                    {{ order.created_at }}
+                <p class="text-zinc-500 text-sm">
+                    {{ order.city }}
                 </p>
+
             </div>
 
-            <div>
-                <p class="font-bold">
+            <div class="text-right">
+
+                <p class="font-bold text-xl">
                     ${{ order.total }}
                 </p>
+
+                {% if order.is_paid %}
+
+                <p class="text-green-400 text-sm">
+                    Pagado
+                </p>
+
+                {% else %}
+
+                <p class="text-red-400 text-sm">
+                    Pendiente
+                </p>
+
+                {% endif %}
+
             </div>
 
         </div>
@@ -86,25 +138,40 @@
 </div>
 
 
-<div class="bg-zinc-900 p-6 rounded-2xl">
 
-    <h2 class="text-2xl font-bold mb-6 text-orange-400">
+<!-- STOCK BAJO -->
+
+<div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
+
+    <h2 class="text-3xl font-bold mb-8 text-orange-400">
         Stock bajo
     </h2>
 
-    <div class="space-y-3">
+    <div class="space-y-4">
 
         {% for item in low_stock %}
 
-        <div class="flex justify-between">
+        <div class="flex justify-between items-center bg-zinc-950 p-5 rounded-2xl">
 
-            <p>
-                {{ item.product.name }}
-            </p>
+            <div>
 
-            <p class="text-orange-400 font-bold">
-                {{ item.stock }}
-            </p>
+                <p class="font-bold">
+                    {{ item.product.name }}
+                </p>
+
+                <p class="text-zinc-500 text-sm">
+                    {{ item.color }} - {{ item.size }}
+                </p>
+
+            </div>
+
+            <div>
+
+                <p class="text-orange-400 text-2xl font-bold">
+                    {{ item.stock }}
+                </p>
+
+            </div>
 
         </div>
 
@@ -116,4 +183,5 @@
 ```
 
 </body>
+
 </html>
