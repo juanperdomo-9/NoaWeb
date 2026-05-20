@@ -34,26 +34,20 @@ class ProductImageInline(admin.TabularInline):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
 
-
     inlines = [ProductVariantInline, ProductImageInline]
 
     list_display = (
         'name',
-        'price',
-        'stock_status',
-        'active',
+        'image_preview',
+        'created_at',
     )
 
     search_fields = (
         'name',
     )
 
-    list_filter = (
-        'active',
-    )
-
-    list_editable = (
-        'active',
+    readonly_fields = (
+        'image_preview_large',
     )
 
     fieldsets = (
@@ -65,32 +59,38 @@ class ProductAdmin(admin.ModelAdmin):
             )
         }),
 
-        ("💰 Precio y stock", {
+        ("🖼️ Imagen", {
             'fields': (
-                'price',
-                'stock',
-                'active',
+                'image_preview_large',
             )
         }),
     )
 
-    def stock_status(self, obj):
+    def image_preview(self, obj):
 
-        if obj.stock <= 0:
+        if obj.image:
             return format_html(
-                '<span style="color:red;font-weight:bold;">❌ Sin stock</span>'
+                '<img src="{}" width="60" style="border-radius:8px;" />',
+                obj.image
             )
 
-        elif obj.stock < 5:
+        return "Sin imagen"
+
+    image_preview.short_description = 'Imagen'
+
+    def image_preview_large(self, obj):
+
+        if obj.image:
             return format_html(
-                '<span style="color:orange;font-weight:bold;">⚠️ Poco stock</span>'
+                '<img src="{}" width="250" style="border-radius:12px;" />',
+                obj.image
             )
 
-        return format_html(
-            '<span style="color:green;font-weight:bold;">✅ En stock</span>'
-        )
+        return "Sin imagen"
 
-    stock_status.short_description = 'Estado stock'
+    image_preview_large.short_description = 'Vista previa'
+
+
 
 
 
@@ -118,6 +118,7 @@ class OrderAdmin(admin.ModelAdmin):
         'city',
         'total',
         'payment_method',
+        'is_paid',
         'payment_status',
         'created_at',
     )
