@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Product
+from .models import Product, Order, ProductVariant
 import json
 from django.http import JsonResponse
 from django.conf import settings
@@ -437,3 +437,24 @@ def mobbex_checkout(request, order_id):
         "url": data.get("data", {}).get("url")
     })
 
+def dashboard(request):
+
+    total_products = Product.objects.count()
+
+    total_orders = Order.objects.count()
+
+    paid_orders = Order.objects.filter(is_paid=True).count()
+
+    recent_orders = Order.objects.order_by('-created_at')[:5]
+
+    low_stock = ProductVariant.objects.filter(stock__lt=5)
+
+    context = {
+        'total_products': total_products,
+        'total_orders': total_orders,
+        'paid_orders': paid_orders,
+        'recent_orders': recent_orders,
+        'low_stock': low_stock,
+    }
+
+    return render(request, 'dashboard.html', context)
