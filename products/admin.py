@@ -12,6 +12,9 @@ class ProductVariantInline(admin.TabularInline):
         'price',
         'stock',
     )
+
+    classes = ('collapse',)
+
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
     extra = 1
@@ -19,6 +22,7 @@ class ProductImageInline(admin.TabularInline):
     readonly_fields = ('image_preview',)
 
     fields = (
+        'color',
         'image',
         'image_preview',
     )
@@ -54,6 +58,10 @@ class ProductAdmin(admin.ModelAdmin):
 
     readonly_fields = (
         'image_preview_large',
+    )
+
+    list_filter = (
+        'created_at',
     )
 
     fieldsets = (
