@@ -75,7 +75,7 @@ class ProductAdmin(admin.ModelAdmin):
 
         ("🖼️ Imagen", {
             'fields': (
-                ''image',
+                'image',
                 'image_file',
                 'image_preview_large',
             )
