@@ -1,96 +1,218 @@
 <!DOCTYPE html>
+
 <html>
+
 <head>
-    <title>Compra exitosa</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-    tailwind.config = {
-    theme: {
-        extend: {
-        colors: {
-            primary: '#8B6B5A',
-            accent: '#C7A17A',
-            background: '#FFFFFF',
-            surface: '#F3ECE6',
-            soft: '#E2D5C9',
-            text: '#000000'
-        }
-        }
+<title>Compra exitosa</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- FONT -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script>
+tailwind.config = {
+theme: {
+    extend: {
+
+    fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+    },
+
+    colors: {
+        primary: '#8B6B5A',
+        accent: '#C7A17A',
+        background: '#FFFFFF',
+        surface: '#F3ECE6',
+        soft: '#E2D5C9',
+        text: '#000000'
     }
+
     }
-    </script>
+}
+}
+</script>
+
+
 </head>
 
-<body class="bg-white text-black">
+<body class="bg-white text-black font-sans antialiased">
 
 <!-- NAVBAR -->
-<nav class="sticky top-0 z-50 backdrop-blur-xl bg-[#8B6B5A]/90 border-b border-[#C7A17A]/30">
 
+<nav class="sticky top-0 z-50 backdrop-blur-xl bg-[#8B6B5A]/90 border-b border-[#C7A17A]/30">
 
 <div class="max-w-7xl mx-auto px-4 md:px-8 py-4 md:py-5 flex justify-between items-center">
 
-    <a href="/"
-       class="text-lg font-light tracking-[0.3em] text-white">
+<a href="/"
+   class="text-lg font-light tracking-[0.3em] text-white">
 
-        NOA
+    NOA
 
-    </a>
+</a>
 
-    <a href="/cart/"
-    class="relative inline-flex items-center justify-center text-white transition duration-300 hover:scale-110">
+<a href="/cart/"
+   class="relative inline-flex items-center justify-center text-white transition duration-300 hover:scale-110">
 
-        <svg xmlns="http://www.w3.org/2000/svg"
-            class="w-6 h-6 md:w-7 md:h-7"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="1.8">
+    <svg xmlns="http://www.w3.org/2000/svg"
+         class="w-6 h-6 md:w-7 md:h-7"
+         fill="none"
+         viewBox="0 0 24 24"
+         stroke="currentColor"
+         stroke-width="1.8">
 
-            <path stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.5 6h13M10 21a1 1 0 100-2 1 1 0 000 2zm8 0a1 1 0 100-2 1 1 0 000 2z" />
+        <path stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9 12.75 11.25 15 15 9.75m6 2.25a9 9 0 11-18 0 9 9 0 0118 0Z" />
 
-        </svg>
+    </svg>
 
-        <span id="cart-count"
-            class="absolute -top-1 -right-2 bg-[#C7A17A] text-white text-[10px] font-semibold px-2 py-0.5 rounded-full shadow-lg">
+</a>
 
-            {{ cart_count }}
-
-        </span>
-
-    </a>
 
 </div>
 
-
 </nav>
 
-<!-- CONTENIDO -->
-<div class="min-h-[80vh] flex items-center justify-center px-4 md:px-6">
+<!-- CONTENT -->
 
-    <div class="text-center max-w-md w-full bg-[#F3ECE6] p-6 md:p-8 rounded-2xl">
+<section class="min-h-[85vh] flex items-center justify-center px-4 py-10 md:py-20">
 
-        <h1 class="text-2xl md:text-3xl font-semibold mb-4">
-            Gracias por tu compra 🎉
-        </h1>
+<div class="w-full max-w-xl">
 
-        <p class="text-sm md:text-base text-gray-600 mb-6">
-            Tu pedido fue realizado correctamente
-        </p>
 
-        <a href="/" 
-           class="block w-full bg-[#8B6B5A] text-white py-4 rounded-xl text-base md:text-lg font-medium 
-                  hover:bg-[#755646] transition">
-            Volver a la tienda
-        </a>
+    <!-- CARD -->
+
+    <div class="relative overflow-hidden bg-[#F3ECE6] border border-[#E2D5C9] rounded-[36px] p-8 md:p-12 shadow-[0_20px_60px_rgba(139,107,90,0.12)]">
+
+
+        <!-- GLOW -->
+
+        <div class="absolute -top-20 -right-20 w-52 h-52 bg-[#C7A17A]/20 rounded-full blur-3xl"></div>
+
+
+
+        <!-- ICON -->
+
+        <div class="relative z-10 flex justify-center mb-8">
+
+
+            <div class="w-20 h-20 rounded-full bg-white shadow-xl flex items-center justify-center border border-[#E2D5C9] animate-pulse">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     class="w-10 h-10 text-[#8B6B5A]"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor"
+                     stroke-width="1.8">
+
+                    <path stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M9 12.75 11.25 15 15 9.75m6 2.25a9 9 0 11-18 0 9 9 0 0118 0Z" />
+
+                </svg>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- TEXT -->
+
+        <div class="relative z-10 text-center">
+
+
+            <p class="text-[#8B6B5A] text-xs uppercase tracking-[0.35em] mb-4">
+
+                Pedido confirmado
+
+            </p>
+
+
+            <h1 class="text-3xl md:text-5xl font-semibold tracking-tight leading-tight mb-5">
+
+                Gracias por tu compra
+
+            </h1>
+
+
+            <p class="text-gray-600 text-sm md:text-base leading-relaxed max-w-md mx-auto">
+
+                Tu pedido fue realizado correctamente.
+                En breve vas a recibir toda la información de seguimiento.
+
+            </p>
+
+        </div>
+
+
+
+        <!-- ACTIONS -->
+
+        <div class="relative z-10 mt-10 space-y-4">
+
+
+            <a href="/"
+               class="group w-full inline-flex items-center justify-center bg-[#8B6B5A] text-white py-5 rounded-2xl text-sm md:text-base font-medium tracking-[0.05em] transition-all duration-300 hover:bg-[#755646] hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#8B6B5A]/20">
+
+                Volver a la tienda
+
+            </a>
+
+
+            <p class="text-center text-xs text-gray-500 tracking-wide">
+
+                Gracias por elegir NOA
+
+            </p>
+
+        </div>
 
     </div>
 
 </div>
 
+</section>
+
+<!-- MICROANIMATION -->
+
+<script>
+
+window.addEventListener("DOMContentLoaded", () => {
+
+    const card = document.querySelector(".rounded-\\[36px\\]");
+
+    card.animate(
+        [
+            {
+                opacity: 0,
+                transform: "translateY(20px) scale(.98)"
+            },
+            {
+                opacity: 1,
+                transform: "translateY(0px) scale(1)"
+            }
+        ],
+        {
+            duration: 700,
+            easing: "cubic-bezier(.22,1,.36,1)",
+            fill: "forwards"
+        }
+    );
+
+});
+
+</script>
+
 </body>
+
 </html>
