@@ -86,3 +86,40 @@ class ProductImage(models.Model):
     def __str__(self):
         return f"{self.product.name} - {self.color}"
 
+class HeroSection(models.Model):
+
+    title = models.CharField(max_length=100)
+    subtitle = models.CharField(max_length=255)
+
+    button_text = models.CharField(
+        max_length=50,
+        default='Ver colección'
+    )
+
+    image = models.URLField(
+        blank=True,
+        null=True
+    )
+
+    image_file = models.ImageField(
+        upload_to='hero/',
+        blank=True,
+        null=True
+    )
+
+    active = models.BooleanField(default=True)
+
+    def save(self, *args, **kwargs):
+
+        if self.image_file:
+
+            uploaded = cloudinary.uploader.upload(self.image_file)
+
+            self.image = uploaded.get('secure_url')
+
+            self.image_file = None
+
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title

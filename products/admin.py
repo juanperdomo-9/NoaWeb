@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Product, ProductVariant, Order, OrderItem, ProductImage
+from .models import Product, ProductVariant, Order, OrderItem, ProductImage, HeroSection
 
 class ProductVariantInline(admin.TabularInline):
     model = ProductVariant
@@ -162,6 +162,14 @@ class OrderAdmin(admin.ModelAdmin):
         )
 
     payment_status.short_description = 'Estado pago'
+
+@admin.register(HeroSection)
+class HeroSectionAdmin(admin.ModelAdmin):
+
+    list_display = (
+        'title',
+        'active',
+    )
 
 
 
