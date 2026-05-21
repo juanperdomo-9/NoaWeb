@@ -1,218 +1,387 @@
 <!DOCTYPE html>
+
 <html>
+
 <head>
-    <title>{{ product.name }}</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+```
+<title>{{ product.name }}</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script>
-    tailwind.config = {
-    theme: {
-        extend: {
-        colors: {
-            primary: '#8B6B5A',
-            accent: '#C7A17A',
-            background: '#FFFFFF',
-            surface: '#F3ECE6',
-            soft: '#E2D5C9',
-            text: '#000000'
-        }
-        }
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- FONT -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script>
+tailwind.config = {
+theme: {
+    extend: {
+
+    fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+    },
+
+    colors: {
+        primary: '#8B6B5A',
+        accent: '#C7A17A',
+        background: '#FFFFFF',
+        surface: '#F3ECE6',
+        soft: '#E2D5C9',
+        text: '#000000'
     }
+
     }
-    </script>
+}
+}
+</script>
+```
 
 </head>
 
-<body class="bg-white text-black">
+<body class="bg-white text-black font-sans antialiased">
 
 <input type="hidden" id="csrf-token" value="{{ csrf_token }}">
 
 <!-- NAVBAR -->
-<nav class="sticky top-0 z-50 backdrop-blur-xl bg-[#8B6B5A]/90 border-b border-[#C7A17A]/30">
 
+<nav class="sticky top-0 z-50 backdrop-blur-xl bg-[#8B6B5A]/90 border-b border-[#C7A17A]/30">
 
 <div class="max-w-7xl mx-auto px-4 md:px-8 py-4 md:py-5 flex justify-between items-center">
 
-    <a href="/"
-       class="text-lg font-light tracking-[0.3em] text-white">
+```
+<a href="/"
+   class="text-lg font-light tracking-[0.3em] text-white">
 
-        NOA
+    NOA
 
-    </a>
+</a>
 
-    <a href="/cart/"
-    class="relative inline-flex items-center justify-center text-white transition duration-300 hover:scale-110">
+<a href="/cart/"
+   class="relative inline-flex items-center justify-center text-white transition duration-300 hover:scale-110">
 
-        <svg xmlns="http://www.w3.org/2000/svg"
-            class="w-6 h-6 md:w-7 md:h-7"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="1.8">
+    <svg xmlns="http://www.w3.org/2000/svg"
+         class="w-6 h-6 md:w-7 md:h-7"
+         fill="none"
+         viewBox="0 0 24 24"
+         stroke="currentColor"
+         stroke-width="1.8">
 
-            <path stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.5 6h13M10 21a1 1 0 100-2 1 1 0 000 2zm8 0a1 1 0 100-2 1 1 0 000 2z" />
+        <path stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.5 6h13M10 21a1 1 0 100-2 1 1 0 000 2zm8 0a1 1 0 100-2 1 1 0 000 2z" />
 
-        </svg>
+    </svg>
 
-        <span id="cart-count"
-            class="absolute -top-1 -right-2 bg-[#C7A17A] text-white text-[10px] font-semibold px-2 py-0.5 rounded-full shadow-lg">
+    <span id="cart-count"
+        class="absolute -top-1 -right-2 bg-[#C7A17A] text-white text-[10px] font-semibold px-2 py-0.5 rounded-full shadow-lg">
 
-            {{ cart_count }}
+        {{ cart_count }}
 
-        </span>
+    </span>
 
-    </a>
+</a>
+```
+
+</div>
+
+</nav>
+
+<!-- CONTENT -->
+
+<div class="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-16">
+
+<div class="grid md:grid-cols-[1.1fr_0.9fr] gap-10 md:gap-20 items-start">
+
+```
+<!-- GALLERY -->
+
+<div>
+
+
+    <!-- MAIN IMAGE -->
+
+    <div class="overflow-hidden rounded-[32px] bg-[#F3ECE6]">
+
+        {% if product.image %}
+
+        <img id="mainImage"
+             src="{{ product.image}}"
+             class="w-full h-[420px] md:h-[720px] object-cover transition duration-700 ease-out hover:scale-[1.02]">
+
+        {% endif %}
+
+    </div>
+
+
+
+    <!-- THUMBNAILS -->
+
+    <div class="flex gap-3 mt-5 flex-wrap">
+
+        {% for img in product.images.all %}
+
+        <button onclick="changeImage(this)"
+                class="group overflow-hidden rounded-2xl border border-[#E2D5C9] hover:border-[#8B6B5A] transition duration-300">
+
+            <img src="{{ img.image}}"
+                 class="w-20 h-20 object-cover transition duration-500 group-hover:scale-105">
+
+        </button>
+
+        {% endfor %}
+
+    </div>
 
 </div>
 
 
-</nav>
 
-<!-- CONTENIDO -->
-<div class="max-w-6xl mx-auto px-4 md:px-6 py-6 md:py-12">
+<!-- INFO -->
 
-<div class="grid md:grid-cols-[1.2fr_0.8fr] gap-6 md:gap-12">
+<div class="flex flex-col">
 
-    <!-- IMAGEN -->
-    <div class="">
-        {% if product.image %}
-            <img id="mainImage"
-                src="{{ product.image}}" 
-                class="w-full max-w-full md:max-w-[520px] h-auto md:h-[520px] object-cover rounded-none">
-        {% endif %}
 
-        <!-- MINI GALERÍA -->
-        <div class="flex gap-2 mt-4 flex-wrap">
-            {% for img in product.images.all %}
-                <img src="{{ img.image}}"
-                    onclick="changeImage(this)"
-                    class="w-16 h-16 object-cover cursor-pointer border border-[#E2D5C9] hover:border-[#8B6B5A] transition">
-            {% endfor %}
-        </div>
-    </div>
+    <!-- TITLE -->
 
-    <!-- INFO -->
-    <div class="flex flex-col space-y-6 w-full items-start justify-start self-start ml-0 text-left">
+    <div class="mb-8">
 
-        <!-- NOMBRE -->
-        <h1 class="text-2xl md:text-4xl font-medium tracking-tight">
-            {{ product.name }}
-        </h1>
+        <p class="text-[#8B6B5A] text-xs uppercase tracking-[0.3em] mb-4">
 
-        <!-- DESCRIPCIÓN -->
-        <p class="text-gray-500 text-sm md:text-base leading-relaxed w-full">
-            {{ product.description }}
+            Nueva colección
+
         </p>
 
-        <!-- PRECIO -->
-        {% if product.variants.first %}
-            <p class="text-xl md:text-2xl font-medium tracking-tight">
-                ${{ product.variants.first.price }}
-            </p>
-        {% endif %}
+        <h1 class="text-3xl md:text-5xl font-semibold tracking-tight leading-none">
 
-        <!-- COLOR -->
-        <div class="space-y-3">
-            <h3 class="text-xs uppercase tracking-widest text-gray-400">
-                Color
-            </h3>
+            {{ product.name }}
 
-            <div id="colors" class="flex gap-2 flex-wrap">
-                {% for color in colors %}
-                    <span onclick="selectColor(this)"
-                          class="text-sm border border-[#E2D5C9] px-4 py-2 cursor-pointer 
-                                 hover:border-[#8B6B5A] transition text-left">
-                        {{ color }}
-                    </span>
-                {% endfor %}
-            </div>
-        </div>
-
-        <!-- TALLE -->
-        <div class="space-y-3">
-            <h3 class="text-xs uppercase tracking-widest text-gray-400">
-                Talle
-            </h3>
-
-            {% if sizes|length == 1 %}
-                <p class="text-sm text-gray-600 tracking-wide">Talle único</p>
-
-                <div id="sizes" class="hidden">
-                    <span>{{ sizes.0 }}</span>
-                </div>
-            {% else %}
-                <div id="sizes" class="flex gap-2 flex-wrap">
-                    {% for size in sizes %}
-                        <span onclick="selectSize(this)"
-                            class="text-sm border border-[#E2D5C9] px-4 py-2 cursor-pointer 
-                                    hover:border-[#8B6B5A] transition text-left">
-                            {{ size }}
-                        </span>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-
-        <!-- BOTÓN -->
-        <button onclick="addToCart()"
-                class="w-full md:w-auto px-6 md:px-10 text-center md:text-left bg-[#8B6B5A] text-white py-4 text-base md:text-sm tracking-wide 
-                    hover:bg-[#755646] transition disabled:bg-gray-300">
-            Agregar al carrito
-        </button>
+        </h1>
 
     </div>
+
+
+
+    <!-- PRICE -->
+
+    {% if product.variants.first %}
+
+    <div class="mb-8">
+
+        <p class="text-2xl md:text-3xl font-semibold tracking-tight">
+
+            ${{ product.variants.first.price }}
+
+        </p>
+
+    </div>
+
+    {% endif %}
+
+
+
+    <!-- DESCRIPTION -->
+
+    <div class="mb-10">
+
+        <p class="text-gray-500 text-sm md:text-base leading-relaxed">
+
+            {{ product.description }}
+
+        </p>
+
+    </div>
+
+
+
+    <!-- COLOR -->
+
+    <div class="mb-8">
+
+        <h3 class="text-xs uppercase tracking-[0.25em] text-gray-400 mb-4">
+
+            Color
+
+        </h3>
+
+        <div id="colors" class="flex gap-3 flex-wrap">
+
+            {% for color in colors %}
+
+            <button onclick="selectColor(this)"
+                    class="variant-btn text-sm border border-[#E2D5C9] bg-white px-5 py-3 rounded-2xl hover:border-[#8B6B5A] hover:bg-[#F3ECE6] transition-all duration-300">
+
+                {{ color }}
+
+            </button>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+
+    <!-- SIZE -->
+
+    <div class="mb-10">
+
+        <h3 class="text-xs uppercase tracking-[0.25em] text-gray-400 mb-4">
+
+            Talle
+
+        </h3>
+
+        {% if sizes|length == 1 %}
+
+        <p class="text-sm text-gray-600 tracking-wide">
+
+            Talle único
+
+        </p>
+
+        <div id="sizes" class="hidden">
+            <span>{{ sizes.0 }}</span>
+        </div>
+
+        {% else %}
+
+        <div id="sizes" class="flex gap-3 flex-wrap">
+
+            {% for size in sizes %}
+
+            <button onclick="selectSize(this)"
+                    class="variant-btn text-sm border border-[#E2D5C9] bg-white px-5 py-3 rounded-2xl hover:border-[#8B6B5A] hover:bg-[#F3ECE6] transition-all duration-300">
+
+                {{ size }}
+
+            </button>
+
+            {% endfor %}
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+
+
+    <!-- BUTTON -->
+
+    <button onclick="addToCart()"
+            class="w-full md:w-auto bg-[#8B6B5A] text-white px-8 py-5 rounded-2xl text-sm tracking-[0.15em] font-medium shadow-xl hover:shadow-2xl hover:bg-[#755646] hover:-translate-y-1 transition-all duration-300 disabled:bg-gray-300">
+
+        Agregar al carrito
+
+    </button>
+
+
+
+    <!-- STOCK -->
+
+    <p id="stock-message"
+       class="text-sm text-gray-500 mt-5 tracking-wide">
+
+    </p>
+
+</div>
+```
 
 </div>
 
 </div>
 
 <!-- TOAST -->
+
 <div id="toast"
-     class="fixed bottom-6 right-6 bg-black text-white text-sm px-5 py-3 opacity-0 transition">
+     class="fixed bottom-6 right-6 bg-black text-white text-sm px-5 py-4 rounded-2xl shadow-2xl opacity-0 translate-y-4 transition-all duration-500 z-50">
+
 </div>
 
 <script>
+
 const isSingleSize = {{ sizes|length }} === 1;
 const singleSizeValue = "{{ sizes.0|default:'' }}";
+
 </script>
 
 <script>
+
 let selectedColor = null;
 let selectedSize = null;
 
-function selectColor(el) {
-    document.querySelectorAll('#colors span').forEach(btn => {
-        btn.classList.remove('border-[#8B6B5A]');
+
+
+function setActiveButton(group, el) {
+
+    document.querySelectorAll(group).forEach(btn => {
+
+        btn.classList.remove(
+            'border-[#8B6B5A]',
+            'bg-[#F3ECE6]'
+        );
+
     });
-    el.classList.add('border-[#8B6B5A]');
+
+    el.classList.add(
+        'border-[#8B6B5A]',
+        'bg-[#F3ECE6]'
+    );
+}
+
+
+
+function selectColor(el) {
+
+    setActiveButton('#colors .variant-btn', el);
+
     selectedColor = el.innerText.trim();
+
     checkStock();
 }
+
+
 
 function selectSize(el) {
-    document.querySelectorAll('#sizes span').forEach(btn => {
-        btn.classList.remove('border-[#8B6B5A]');
-    });
-    el.classList.add('border-[#8B6B5A]');
+
+    setActiveButton('#sizes .variant-btn', el);
+
     selectedSize = el.innerText.trim();
+
     checkStock();
 }
 
+
+
 function showToast(msg = "Producto agregado") {
+
     const toast = document.getElementById("toast");
+
     toast.innerText = msg;
 
-    toast.classList.remove("opacity-0");
+    toast.classList.remove(
+        "opacity-0",
+        "translate-y-4"
+    );
 
     setTimeout(() => {
-        toast.classList.add("opacity-0");
-    }, 2000);
+
+        toast.classList.add(
+            "opacity-0",
+            "translate-y-4"
+        );
+
+    }, 2200);
 }
+
+
 
 function addToCart() {
 
@@ -221,80 +390,129 @@ function addToCart() {
     }
 
     if (!selectedColor || !selectedSize) {
-        alert("Seleccioná color y talle");
+
+        showToast("Seleccioná color y talle");
+
         return;
     }
 
     const csrfToken = document.getElementById("csrf-token").value;
 
     fetch('/add-to-cart/', {
+
         method: 'POST',
+
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': csrfToken
         },
+
         body: JSON.stringify({
             product_id: {{ product.id }},
             color: selectedColor,
             size: selectedSize
         })
+
     })
+
     .then(res => res.json())
+
     .then(data => {
+
         showToast();
 
         const counter = document.getElementById("cart-count");
+
         if (counter) {
             counter.innerText = data.cart_count;
         }
+
     });
+
 }
+
+
 
 function checkStock() {
 
     if (!selectedColor || !selectedSize) return;
 
     const key = `${selectedColor.toLowerCase()}-${selectedSize.toLowerCase()}`;
+
     const stock = stockMap[key];
 
     const btn = document.querySelector("button[onclick='addToCart()']");
+
     const msg = document.getElementById("stock-message");
 
-    // ❌ Sin stock
+
+
     if (!stock || stock <= 0) {
+
         btn.disabled = true;
+
         btn.innerText = "Sin stock";
 
         msg.innerText = "Sin stock disponible";
+
         msg.classList.remove("text-gray-500");
+
         msg.classList.add("text-red-500");
 
         return;
     }
 
-    // ✅ Con stock
+
+
     btn.disabled = false;
+
     btn.innerText = "Agregar al carrito";
 
     msg.innerText = `Stock disponible: ${stock}`;
+
     msg.classList.remove("text-red-500");
+
     msg.classList.add("text-gray-500");
 }
 
+
+
 const stockMap = {{ stock_map|safe }};
 
+
+
 window.addEventListener("DOMContentLoaded", () => {
+
     const sizes = document.querySelectorAll('#sizes span');
 
     if (sizes.length === 1) {
+
         selectedSize = sizes[0].innerText.trim();
+
     }
+
 });
 
+
+
 function changeImage(el) {
-    document.getElementById("mainImage").src = el.src;
+
+    const mainImage = document.getElementById("mainImage");
+
+    mainImage.style.opacity = "0.6";
+
+    setTimeout(() => {
+
+        mainImage.src = el.querySelector('img').src;
+
+        mainImage.style.opacity = "1";
+
+    }, 150);
+
 }
+
 </script>
 
 </body>
+
 </html>
