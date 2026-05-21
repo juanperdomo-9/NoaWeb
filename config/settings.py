@@ -164,3 +164,27 @@ cloudinary.config(
 
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
+JAZZMIN_SETTINGS = {
+
+
+    "site_title": "NOA Admin",
+    "site_header": "NOA Dashboard",
+    "site_brand": "NOA",
+
+    "welcome_sign": "Bienvenido al panel de administración",
+
+    "copyright": "JPWeb",
+
+    "show_sidebar": True,
+    "navigation_expanded": True,
+
+    "icons": {
+        "products.Product": "fas fa-shirt",
+        "products.Order": "fas fa-cart-shopping",
+        "products.ProductVariant": "fas fa-layer-group",
+    },
+
+
+}
