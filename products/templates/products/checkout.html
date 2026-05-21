@@ -26,19 +26,45 @@
 <body class="bg-white text-black">
 
 <!-- NAVBAR -->
-<nav class="bg-[#8B6B5A] backdrop-blur-xl border-b border-[#C7A17A] px-4 md:px-8 py-4 md:py-5 flex justify-between items-center sticky top-0 z-50">
+<nav class="sticky top-0 z-50 backdrop-blur-xl bg-[#8B6B5A]/90 border-b border-[#C7A17A]/30">
 
-    <a href="/" class="text-white text-lg md:text-xl font-semibold hover:text-[#C7A17A] transition">
+
+<div class="max-w-7xl mx-auto px-4 md:px-8 py-4 md:py-5 flex justify-between items-center">
+
+    <a href="/"
+       class="text-lg font-light tracking-[0.3em] text-white">
+
         NOA
+
     </a>
 
-    <a href="/cart/" class="relative inline-block text-xl md:text-2xl text-white transition duration-300 hover:scale-125 hover:-rotate-6">
-        🛒
+    <a href="/cart/"
+    class="relative inline-flex items-center justify-center text-white transition duration-300 hover:scale-110">
+
+        <svg xmlns="http://www.w3.org/2000/svg"
+            class="w-6 h-6 md:w-7 md:h-7"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="1.8">
+
+            <path stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.5 6h13M10 21a1 1 0 100-2 1 1 0 000 2zm8 0a1 1 0 100-2 1 1 0 000 2z" />
+
+        </svg>
+
         <span id="cart-count"
-            class="absolute -top-1 -right-2 bg-[#C7A17A] text-white text-xs px-2 py-0.5 rounded-full">
+            class="absolute -top-1 -right-2 bg-[#C7A17A] text-white text-[10px] font-semibold px-2 py-0.5 rounded-full shadow-lg">
+
             {{ cart_count }}
+
         </span>
+
     </a>
+
+</div>
+
 
 </nav>
 
