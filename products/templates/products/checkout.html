@@ -1,182 +1,431 @@
 <!DOCTYPE html>
+
 <html>
+
 <head>
-    <title>Checkout</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+```
+<title>Checkout</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script>
-    tailwind.config = {
-    theme: {
-        extend: {
-        colors: {
-            primary: '#8B6B5A',
-            accent: '#C7A17A',
-            background: '#FFFFFF',
-            text: '#000000'
-        }
-        }
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- FONT -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script>
+tailwind.config = {
+theme: {
+    extend: {
+
+    fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+    },
+
+    colors: {
+        primary: '#8B6B5A',
+        accent: '#C7A17A',
+        background: '#FFFFFF',
+        text: '#000000'
     }
+
     }
-    </script>
+}
+}
+</script>
+```
+
 </head>
 
-<body class="bg-white text-black">
+<body class="bg-white text-black font-sans antialiased">
 
 <!-- NAVBAR -->
-<nav class="sticky top-0 z-50 backdrop-blur-xl bg-[#8B6B5A]/90 border-b border-[#C7A17A]/30">
 
+<nav class="sticky top-0 z-50 backdrop-blur-xl bg-[#8B6B5A]/90 border-b border-[#C7A17A]/30">
 
 <div class="max-w-7xl mx-auto px-4 md:px-8 py-4 md:py-5 flex justify-between items-center">
 
-    <a href="/"
-       class="text-lg font-light tracking-[0.3em] text-white">
+```
+<a href="/"
+   class="text-lg font-light tracking-[0.3em] text-white">
 
-        NOA
+    NOA
 
-    </a>
+</a>
 
-    <a href="/cart/"
-    class="relative inline-flex items-center justify-center text-white transition duration-300 hover:scale-110">
+<a href="/cart/"
+   class="relative inline-flex items-center justify-center text-white transition duration-300 hover:scale-110">
 
-        <svg xmlns="http://www.w3.org/2000/svg"
-            class="w-6 h-6 md:w-7 md:h-7"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="1.8">
+    <svg xmlns="http://www.w3.org/2000/svg"
+         class="w-6 h-6 md:w-7 md:h-7"
+         fill="none"
+         viewBox="0 0 24 24"
+         stroke="currentColor"
+         stroke-width="1.8">
 
-            <path stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.5 6h13M10 21a1 1 0 100-2 1 1 0 000 2zm8 0a1 1 0 100-2 1 1 0 000 2z" />
+        <path stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.5 6h13M10 21a1 1 0 100-2 1 1 0 000 2zm8 0a1 1 0 100-2 1 1 0 000 2z" />
 
-        </svg>
+    </svg>
 
-        <span id="cart-count"
-            class="absolute -top-1 -right-2 bg-[#C7A17A] text-white text-[10px] font-semibold px-2 py-0.5 rounded-full shadow-lg">
+    <span id="cart-count"
+        class="absolute -top-1 -right-2 bg-[#C7A17A] text-white text-[10px] font-semibold px-2 py-0.5 rounded-full shadow-lg">
 
-            {{ cart_count }}
+        {{ cart_count }}
 
-        </span>
+    </span>
 
-    </a>
+</a>
+```
 
 </div>
-
 
 </nav>
 
-<div class="max-w-6xl mx-auto px-4 md:px-6 py-6 md:py-12 grid md:grid-cols-2 gap-6 md:gap-12">
+<!-- CONTENT -->
 
-    <!-- FORM -->
-    <div class="bg-[#F3ECE6] p-5 md:p-6 rounded-2xl">
+<div class="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-16">
 
-        <h1 class="text-xl md:text-2xl font-semibold mb-6">Finalizar compra</h1>
+<div class="grid lg:grid-cols-[1fr_420px] gap-8 md:gap-14 items-start">
 
-        <form id="checkout-form" onsubmit="return false;" class="space-y-4">
+```
+<!-- FORM -->
 
-            <input id="name" placeholder="Nombre y apellido"
-                class="w-full border border-[#E2D5C9] px-4 py-4 bg-white">
+<div class="bg-[#F3ECE6] rounded-[32px] p-6 md:p-10 border border-[#E2D5C9]">
 
-            <input id="document" placeholder="Documento"
-                class="w-full border border-[#E2D5C9] px-4 py-4 bg-white">
 
-            <input id="email" placeholder="Mail"
-                class="w-full border border-[#E2D5C9] px-4 py-4 bg-white">
+    <div class="mb-8">
 
-            <input id="phone" placeholder="Celular"
-                class="w-full border border-[#E2D5C9] px-4 py-4 bg-white">
+        <p class="text-[#8B6B5A] text-xs uppercase tracking-[0.3em] mb-3">
 
-            <input id="address" placeholder="Dirección"
-                class="w-full border border-[#E2D5C9] px-4 py-4 bg-white">
+            Checkout
 
-            <input id="city" placeholder="Localidad"
-                class="w-full border border-[#E2D5C9] px-4 py-4 bg-white">
+        </p>
 
-            <input id="postal_code" placeholder="Código postal"
-                class="w-full border border-[#E2D5C9] px-4 py-4 bg-white">
+        <h1 class="text-3xl md:text-5xl font-semibold tracking-tight">
 
-            <input id="province" placeholder="Provincia"
-                class="w-full border border-[#E2D5C9] px-4 py-4 bg-white">
+            Finalizar compra
 
-            <select id="shipping" class="w-full border border-[#E2D5C9] px-4 py-4 bg-white">
-                <option value="" disabled selected>Opciones de retiro</option>
-                <option value="retiro_caba">Retiro en sucursal CABA (Av Santa Fe 1739)</option>
-                <option value="retiro_laplata">Retiro en sucursal La PLata (11 num 868)</option>
-                <option value="correo">Envío por correo (+$9000)</option>
-            </select>
-
-            <select id="payment_method" class="w-full border border-[#E2D5C9] px-4 py-4 bg-white">
-                <option value="" disabled selected>Opciones de pago</option>
-                <option value="card">Tarjeta (Mobbex)</option>
-                <option value="transfer">Transferencia (25% OFF)</option>
-            </select>
-
-        </form>
+        </h1>
 
     </div>
 
-    <!-- RESUMEN -->
-    <div class="bg-[#F3ECE6] p-5 md:p-6 rounded-2xl space-y-4 h-fit">
 
-        <h2 class="text-lg font-medium">Resumen</h2>
 
-        {% for item in items %}
-        <div class="flex justify-between text-sm md:text-base">
-            <span>{{ item.product.name }} x{{ item.quantity }}</span>
-            <span>${{ item.price|floatformat:0 }}</span>
+    <form id="checkout-form"
+          onsubmit="return false;"
+          class="space-y-5">
+
+
+        <div class="grid md:grid-cols-2 gap-5">
+
+            <input id="name"
+                   placeholder="Nombre y apellido"
+                   class="checkout-input">
+
+            <input id="document"
+                   placeholder="Documento"
+                   class="checkout-input">
+
         </div>
-        {% endfor %}
 
-        <div class="border-t border-[#E2D5C9] pt-4 flex justify-between font-semibold">
-            <span>Total</span>
-            <span id="total-price" data-base="{{ total }}">
-                ${{ total }}
-            </span>
+
+        <div class="grid md:grid-cols-2 gap-5">
+
+            <input id="email"
+                   placeholder="Mail"
+                   class="checkout-input">
+
+            <input id="phone"
+                   placeholder="Celular"
+                   class="checkout-input">
+
         </div>
+
+
+        <input id="address"
+               placeholder="Dirección"
+               class="checkout-input">
+
+
+        <div class="grid md:grid-cols-3 gap-5">
+
+            <input id="city"
+                   placeholder="Localidad"
+                   class="checkout-input">
+
+            <input id="postal_code"
+                   placeholder="Código postal"
+                   class="checkout-input">
+
+            <input id="province"
+                   placeholder="Provincia"
+                   class="checkout-input">
+
+        </div>
+
+
+
+        <select id="shipping" class="checkout-input">
+
+            <option value="" disabled selected>
+                Opciones de retiro
+            </option>
+
+            <option value="retiro_caba">
+                Retiro en sucursal CABA
+            </option>
+
+            <option value="retiro_laplata">
+                Retiro en sucursal La Plata
+            </option>
+
+            <option value="correo">
+                Envío por correo (+$9000)
+            </option>
+
+        </select>
+
+
+
+        <select id="payment_method" class="checkout-input">
+
+            <option value="" disabled selected>
+                Opciones de pago
+            </option>
+
+            <option value="card">
+                Tarjeta (Mobbex)
+            </option>
+
+            <option value="transfer">
+                Transferencia (25% OFF)
+            </option>
+
+        </select>
+
+    </form>
+
+</div>
+
+
+
+<!-- SUMMARY -->
+
+<div class="lg:sticky lg:top-28">
+
+
+    <div class="bg-[#F3ECE6] rounded-[32px] p-6 md:p-8 border border-[#E2D5C9]">
+
+
+        <div class="mb-8">
+
+            <p class="text-[#8B6B5A] text-xs uppercase tracking-[0.3em] mb-3">
+
+                Resumen
+
+            </p>
+
+            <h2 class="text-2xl font-semibold tracking-tight">
+
+                Tu compra
+
+            </h2>
+
+        </div>
+
+
+
+        <div class="space-y-5">
+
+            {% for item in items %}
+
+            <div class="flex items-start justify-between gap-4">
+
+                <div>
+
+                    <p class="font-medium">
+
+                        {{ item.product.name }}
+
+                    </p>
+
+                    <p class="text-sm text-gray-500 mt-1">
+
+                        Cantidad: {{ item.quantity }}
+
+                    </p>
+
+                </div>
+
+                <p class="font-semibold whitespace-nowrap">
+
+                    ${{ item.price|floatformat:0 }}
+
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+
+        <div class="border-t border-[#E2D5C9] mt-8 pt-6">
+
+
+            <div class="flex items-center justify-between">
+
+                <div>
+
+                    <p class="text-[#8B6B5A] text-xs uppercase tracking-[0.25em] mb-2">
+
+                        Total
+
+                    </p>
+
+                    <h2 id="total-price"
+                        data-base="{{ total }}"
+                        class="text-3xl md:text-4xl font-bold tracking-tight">
+
+                        ${{ total }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- CTA -->
+
+        <button onclick="checkout()"
+            class="checkout-btn w-full mt-8">
+
+            Pagar ahora
+
+        </button>
 
     </div>
 
 </div>
+```
 
-<!-- BOTÓN -->
-<div class="fixed bottom-0 left-0 w-full bg-white p-4 md:static md:p-0">
-    <button onclick="checkout()"
-        class="w-full bg-[#8B6B5A] text-white py-4 text-base font-medium rounded-xl hover:bg-[#755646] transition">
-        Pagar ahora
-    </button>
 </div>
 
-<div class="h-20 md:hidden"></div>
+</div>
+
+<!-- MOBILE SPACING -->
+
+<div class="h-8 md:hidden"></div>
 
 <!-- TOAST -->
+
 <div id="checkout-toast"
-     class="fixed bottom-6 right-6 bg-black text-white px-5 py-3 text-sm opacity-0 transition">
+     class="fixed bottom-6 right-6 bg-black text-white px-5 py-4 rounded-2xl shadow-2xl text-sm opacity-0 translate-y-4 transition-all duration-500 z-50">
+
 </div>
 
-<!-- JS COMPLETO -->
+<!-- REUSABLE CLASSES -->
+
+<style>
+
+.checkout-input {
+
+    width: 100%;
+    border: 1px solid #E2D5C9;
+    background: white;
+    padding: 18px 18px;
+    border-radius: 18px;
+    font-size: 14px;
+    transition: all .3s ease;
+    outline: none;
+}
+
+.checkout-input:focus {
+
+    border-color: #8B6B5A;
+    box-shadow: 0 0 0 4px rgba(139,107,90,.12);
+}
+
+.checkout-btn {
+
+    background: #8B6B5A;
+    color: white;
+    padding: 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    transition: all .3s ease;
+    box-shadow: 0 20px 40px rgba(139,107,90,.18);
+}
+
+.checkout-btn:hover {
+
+    background: #755646;
+    transform: translateY(-2px);
+    box-shadow: 0 25px 50px rgba(139,107,90,.25);
+}
+
+</style>
+
+<!-- JS -->
+
 <script>
+
 let isProcessing = false;
 
+
+
 function showToast(msg) {
+
     const toast = document.getElementById("checkout-toast");
+
     toast.innerText = msg;
-    toast.classList.remove("opacity-0");
-    setTimeout(() => toast.classList.add("opacity-0"), 2000);
+
+    toast.classList.remove(
+        "opacity-0",
+        "translate-y-4"
+    );
+
+    setTimeout(() => {
+
+        toast.classList.add(
+            "opacity-0",
+            "translate-y-4"
+        );
+
+    }, 2200);
 }
+
+
 
 function checkout() {
 
     if (isProcessing) return;
+
     isProcessing = true;
 
-    const btn = document.querySelector("button[onclick='checkout()']");
+    const btn = document.querySelector(".checkout-btn");
+
     btn.disabled = true;
+
     btn.innerText = "Procesando...";
 
+
+
     const data = {
+
         name: document.getElementById("name").value,
         document: document.getElementById("document").value,
         email: document.getElementById("email").value,
@@ -187,72 +436,111 @@ function checkout() {
         province: document.getElementById("province").value,
         shipping: document.getElementById("shipping").value,
         payment_method: document.getElementById("payment_method").value
-    };  
+
+    };
+
+
 
     if (!data.shipping || !data.payment_method) {
+
         showToast("Seleccioná envío y forma de pago");
+
         btn.disabled = false;
+
         btn.innerText = "Pagar ahora";
+
         isProcessing = false;
+
         return;
     }
 
+
+
     fetch('/create-order/', {
+
         method: 'POST',
+
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': '{{ csrf_token }}'
         },
+
         body: JSON.stringify(data)
+
     })
+
     .then(async res => {
+
         const data = await res.json();
 
         if (!res.ok) {
+
             throw new Error(data.error || "Error en la compra");
         }
 
         return data;
     })
+
     .then(data => {
 
         const payment = document.getElementById("payment_method").value;
 
         if (payment === "transfer") {
+
             window.location.href = `/transfer/${data.order_id}/`;
+
         } else {
+
             fetch(`/mobbex/${data.order_id}/`)
                 .then(res => res.json())
                 .then(res => window.location.href = res.url);
         }
 
     })
+
     .catch(err => {
+
         showToast(err.message);
+
         btn.disabled = false;
+
         btn.innerText = "Pagar ahora";
+
         isProcessing = false;
+
     });
+
 }
 
-// 🔥 SUMA ENVÍO EN TIEMPO REAL
+
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const shipping = document.getElementById("shipping");
+
     const totalElement = document.getElementById("total-price");
+
     const baseTotal = parseInt(totalElement.dataset.base);
 
+
+
     shipping.addEventListener("change", function () {
+
         let total = baseTotal;
 
         if (this.value === "correo") {
+
             total += 9000;
         }
 
         totalElement.innerText = "$" + total;
+
     });
 
 });
+
 </script>
+
 </body>
+
 </html>
