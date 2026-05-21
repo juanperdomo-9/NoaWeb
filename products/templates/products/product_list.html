@@ -13,11 +13,12 @@
 
 <script src="https://cdn.tailwindcss.com"></script>
 
-<!-- FONT PREMIUM -->
+<!-- FONT -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
+
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <script>
 tailwind.config = {
@@ -32,9 +33,9 @@ theme: {
         primary: '#8B6B5A',
         accent: '#C7A17A',
         background: '#FFFFFF',
-        surface: '#F8F5F2',
-        soft: '#EFE7E0',
-        text: '#111111'
+        surface: '#F3ECE6',
+        soft: '#E2D5C9',
+        text: '#000000'
     }
 
     }
@@ -59,6 +60,7 @@ body {
 }
 
 @keyframes fadeIn {
+
     from {
         opacity: 0;
         transform: scale(1.01);
@@ -84,38 +86,38 @@ body {
 ```
 <!-- BACKGROUND -->
 
-<div class="absolute inset-0 bg-cover bg-center scale-105"
+<div class="absolute inset-0 bg-cover bg-center bg-no-repeat scale-[1.02]"
     style="background-image: url('{% static 'img/imgfondo.jpeg' %}');">
 </div>
 
 
 <!-- OVERLAY -->
 
-<div class="absolute inset-0 bg-black/40"></div>
+<div class="absolute inset-0 bg-black/25"></div>
 
-<div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/60"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/50"></div>
 
 
 
 <!-- NAVBAR -->
 
 <nav id="navbar"
-     class="fixed top-0 left-0 w-full px-5 md:px-10 py-5 flex justify-between items-center z-50 transition-all duration-500 backdrop-blur-xl bg-black/10 border-b border-white/10">
+     class="fixed top-0 left-0 w-full px-6 md:px-10 py-5 flex justify-between items-center z-50 transition-all duration-500 backdrop-blur-xl bg-black/10 border-b border-white/10">
 
     <a href="/"
-       class="text-sm md:text-lg font-medium tracking-[0.4em] text-white">
+       class="text-lg font-light tracking-[0.3em] text-white">
 
         NOA
 
     </a>
 
     <a href="/cart/"
-       class="relative text-xl text-white hover:scale-105 transition duration-300">
+       class="relative text-xl text-white transition duration-300 hover:scale-105">
 
         🛒
 
         <span id="cart-count"
-            class="absolute -top-2 -right-3 bg-white text-black text-[10px] font-semibold px-2 py-0.5 rounded-full">
+            class="absolute -top-1 -right-2 bg-[#C7A17A] text-white text-xs px-2 py-0.5 rounded-full shadow-lg">
 
             {{ cart_count }}
 
@@ -127,43 +129,44 @@ body {
 
 
 
-<!-- HERO CONTENT -->
+<!-- CONTENT -->
 
 <div class="relative z-10 h-full flex flex-col justify-center items-center text-center px-6">
 
 
-    <p class="text-white/60 uppercase tracking-[0.3em] text-xs md:text-sm mb-6">
+    <!-- TITLE -->
 
-        Nueva colección disponible
-
-    </p>
-
-
-    <h1 class="text-6xl md:text-[11rem] leading-none font-light tracking-[0.25em] text-white">
+    <h1 class="text-6xl md:text-8xl font-light tracking-[0.3em] text-white drop-shadow-2xl">
 
         NOA
 
     </h1>
 
 
-    <p class="mt-8 text-white/70 text-sm tracking-[0.25em] max-w-xl leading-relaxed">
+    <!-- SUBTITLE -->
 
-        25% OFF POR TRANSFERENCIA · 3 CUOTAS SIN INTERÉS
+    <p class="mt-6 text-white/75 text-xs md:text-sm tracking-[0.25em]">
+
+        25% POR TRANSFERENCIA · 3 CUOTAS SIN INTERÉS
 
     </p>
 
 
+    <!-- BUTTON -->
+
     <a href="#catalogo"
-       class="mt-10 border border-white/20 hover:border-white/40 text-white px-8 py-4 rounded-full text-sm tracking-[0.2em] backdrop-blur-xl bg-white/5 hover:bg-white/10 transition duration-500">
+       class="mt-10 px-8 py-4 rounded-full border border-white/20 bg-white/5 backdrop-blur-xl text-white text-xs tracking-[0.25em] hover:bg-white/10 hover:border-white/40 transition duration-500">
 
         VER COLECCIÓN
 
     </a>
 
 
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50 text-xs tracking-[0.3em] animate-bounce">
+    <!-- SCROLL -->
 
-        SCROLL
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 text-xs tracking-[0.25em] animate-bounce">
+
+        ↓ SCROLL
 
     </div>
 
@@ -174,31 +177,26 @@ body {
 
 <!-- CATÁLOGO -->
 
-<section id="catalogo"
-         class="bg-white">
+<section id="catalogo">
 
-<div class="max-w-7xl mx-auto px-4 md:px-10 py-14 md:py-24">
+<div class="max-w-7xl mx-auto px-4 md:px-12 py-10 md:py-16">
 
 ```
 <!-- HEADER -->
 
-<div class="mb-14 md:mb-20 flex items-end justify-between">
+<div class="mb-10 md:mb-16">
 
-    <div>
+    <p class="text-[#8B6B5A] text-xs tracking-[0.25em] uppercase mb-3">
 
-        <p class="text-xs uppercase tracking-[0.3em] text-zinc-400 mb-4">
+        Colección
 
-            Colección
+    </p>
 
-        </p>
+    <h2 class="text-3xl md:text-5xl font-light tracking-tight">
 
-        <h2 class="text-3xl md:text-5xl font-light tracking-tight">
+        Productos destacados
 
-            Productos destacados
-
-        </h2>
-
-    </div>
+    </h2>
 
 </div>
 
@@ -206,30 +204,27 @@ body {
 
 <!-- GRID -->
 
-<div class="grid grid-cols-2 md:grid-cols-3 gap-x-4 md:gap-x-8 gap-y-10 md:gap-y-20">
+<div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 
+            gap-x-4 md:gap-x-8 
+            gap-y-10 md:gap-y-20">
 
 
 {% for product in products %}
 
-<a href="{% url 'product_detail' product.id %}"
-   class="group block">
+<a href="{% url 'product_detail' product.id %}" 
+   class="group block bg-[#F3ECE6] rounded-[28px] p-2 md:p-3 transition-all duration-500 ease-out hover:shadow-2xl hover:shadow-[#8B6B5A]/10 hover:-translate-y-2">
 
 
     <!-- IMAGE -->
 
-    <div class="relative overflow-hidden rounded-[28px] bg-[#F8F5F2]">
+    <div class="overflow-hidden rounded-[22px]">
 
         {% if product.image %}
 
         <img src="{{ product.image }}"
-             class="w-full h-[240px] md:h-[520px] object-cover transition duration-700 ease-out group-hover:scale-[1.03]">
+             class="w-full h-[220px] md:h-[420px] object-cover transition duration-700 ease-out group-hover:scale-[1.03]">
 
         {% endif %}
-
-
-        <!-- HOVER OVERLAY -->
-
-        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition duration-500"></div>
 
     </div>
 
@@ -237,22 +232,26 @@ body {
 
     <!-- INFO -->
 
-    <div class="mt-5 md:mt-7 px-1">
+    <div class="mt-4 md:mt-5 px-1">
 
 
-        <div class="flex items-center justify-between gap-3">
+        <div class="flex items-start justify-between gap-3">
 
 
-            <h2 class="text-sm md:text-lg font-medium tracking-tight">
+            <div>
 
-                {{ product.name }}
+                <h2 class="text-sm md:text-base font-semibold tracking-tight text-[#111111]">
 
-            </h2>
+                    {{ product.name }}
+
+                </h2>
+
+            </div>
 
 
             {% if product.variants.first %}
 
-            <p class="text-zinc-500 text-xs md:text-sm whitespace-nowrap">
+            <p class="text-[#8B6B5A] text-xs md:text-sm whitespace-nowrap font-medium">
 
                 ${{ product.variants.first.price }}
 
@@ -283,30 +282,18 @@ window.addEventListener("scroll", () => {
 
     const navbar = document.getElementById("navbar");
 
-    if (window.scrollY > 100) {
+    if (window.scrollY > window.innerHeight * 0.6) {
 
         navbar.classList.add(
-            "bg-white/80",
-            "backdrop-blur-2xl",
-            "border-black/5"
-        );
-
-        navbar.classList.remove(
-            "bg-black/10",
-            "border-white/10"
+            "bg-[#8B6B5A]/90",
+            "shadow-xl"
         );
 
     } else {
 
         navbar.classList.remove(
-            "bg-white/80",
-            "backdrop-blur-2xl",
-            "border-black/5"
-        );
-
-        navbar.classList.add(
-            "bg-black/10",
-            "border-white/10"
+            "bg-[#8B6B5A]/90",
+            "shadow-xl"
         );
     }
 
