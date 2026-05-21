@@ -1,5 +1,5 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Product, Order, ProductVariant
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Product, Order, ProductVariant, HeroSection
 import json
 from django.http import JsonResponse
 from django.conf import settings
@@ -16,8 +16,10 @@ resend.api_key = os.environ.get("RESEND_API_KEY")
 
 def product_list(request):
     products = Product.objects.all()
+    hero = HeroSection.objects.filter(active=True).first()
     return render(request, 'products/product_list.html', {
-        'products': products
+        'products': products,
+        'hero': hero
     })
 
 
@@ -472,3 +474,23 @@ def dashboard(request):
 
     return render(request, 'products/dashboard.html', context)
 
+def dashboard_hero(request):
+
+    hero = HeroSection.objects.first()
+
+    if request.method == 'POST':
+
+        hero.title = request.POST.get('title')
+        hero.subtitle = request.POST.get('subtitle')
+        hero.button_text = request.POST.get('button_text')
+
+        if request.FILES.get('image_file'):
+            hero.image_file = request.FILES.get('image_file')
+
+        hero.save()
+
+        return redirect('dashboard_hero')
+
+    return render(request, 'products/dashboard_hero.html', {
+        'hero': hero
+    })
