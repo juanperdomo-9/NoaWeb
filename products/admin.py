@@ -13,8 +13,6 @@ class ProductVariantInline(admin.TabularInline):
         'stock',
     )
 
-    classes = ('collapse',)
-
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
     extra = 1
@@ -39,16 +37,15 @@ class ProductImageInline(admin.TabularInline):
 
     image_preview.short_description = 'Preview'
 
-
-
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
+
 
     inlines = [ProductVariantInline, ProductImageInline]
 
     list_display = (
-        'name',
         'image_preview',
+        'name',
         'created_at',
     )
 
@@ -56,12 +53,12 @@ class ProductAdmin(admin.ModelAdmin):
         'name',
     )
 
-    readonly_fields = (
-        'image_preview_large',
-    )
-
     list_filter = (
         'created_at',
+    )
+
+    readonly_fields = (
+        'image_preview_large',
     )
 
     fieldsets = (
@@ -73,10 +70,10 @@ class ProductAdmin(admin.ModelAdmin):
             )
         }),
 
-        ("🖼️ Imagen", {
+        ("🖼️ Imagen principal", {
             'fields': (
-                'image',
                 'image_file',
+                'image',
                 'image_preview_large',
             )
         }),
@@ -86,7 +83,7 @@ class ProductAdmin(admin.ModelAdmin):
 
         if obj.image:
             return format_html(
-                '<img src="{}" width="60" style="border-radius:8px;" />',
+                '<img src="{}" width="60" style="border-radius:10px;" />',
                 obj.image
             )
 
@@ -105,10 +102,6 @@ class ProductAdmin(admin.ModelAdmin):
         return "Sin imagen"
 
     image_preview_large.short_description = 'Vista previa'
-
-
-
-
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
