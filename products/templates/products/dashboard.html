@@ -17,41 +17,41 @@
 
 </head>
 
-<body class="bg-black text-white min-h-screen flex">
+<body class="bg-black text-white min-h-screen md:flex">
 
 <!-- SIDEBAR -->
 
-<aside class="w-72 bg-zinc-950 border-r border-zinc-800 p-8 hidden md:block">
+<aside class="w-full md:w-72 bg-zinc-950 border-b md:border-b-0 md:border-r border-zinc-800 p-6 md:p-8">
 
     <h1 class="text-3xl font-black mb-12">
         NOA
     </h1>
 
-    <nav class="space-y-3">
+    <nav class="flex md:block gap-3 md:space-y-3 overflow-x-auto">
 
         <a href="#"
-           class="block bg-zinc-900 hover:bg-zinc-800 transition p-4 rounded-2xl font-semibold">
+           class="block whitespace-nowrap hover:bg-zinc-900 transition p-4 rounded-2xl text-zinc-400 hover:text-white"
 
             📊 Dashboard
 
         </a>
 
         <a href="/admin/products/order/"
-           class="block hover:bg-zinc-900 transition p-4 rounded-2xl text-zinc-400 hover:text-white">
+           class="block whitespace-nowrap hover:bg-zinc-900 transition p-4 rounded-2xl text-zinc-400 hover:text-white"
 
             🛒 Pedidos
 
         </a>
 
         <a href="/admin/products/product/"
-           class="block hover:bg-zinc-900 transition p-4 rounded-2xl text-zinc-400 hover:text-white">
+           class="block whitespace-nowrap hover:bg-zinc-900 transition p-4 rounded-2xl text-zinc-400 hover:text-white">
 
             👕 Productos
 
         </a>
 
         <a href="/admin/"
-           class="block hover:bg-zinc-900 transition p-4 rounded-2xl text-zinc-400 hover:text-white">
+           class="block whitespace-nowrap hover:bg-zinc-900 transition p-4 rounded-2xl text-zinc-400 hover:text-white">
 
             ⚙️ Admin
 
@@ -65,18 +65,18 @@
 
 <!-- CONTENT -->
 
-<main class="flex-1 p-8 md:p-12 overflow-y-auto">
+<main class="flex-1 p-4 md:p-12 overflow-y-auto">
 
 
     <!-- HEADER -->
 
     <div class="mb-12">
 
-        <h1 class="text-5xl font-black mb-2">
+        <h1 class="text-3xl md:text-5xl font-black mb-2">
             Dashboard
         </h1>
 
-        <p class="text-zinc-500 text-lg">
+        <p class="text-zinc-500 text-base md:text-lg">
             Panel de administración y métricas
         </p>
 
@@ -86,7 +86,7 @@
 
     <!-- CARDS -->
 
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-10">
 
         <div class="bg-gradient-to-br from-zinc-900 to-zinc-800 p-8 rounded-3xl border border-zinc-800 shadow-2xl">
 
@@ -94,7 +94,7 @@
                 Productos
             </p>
 
-            <h2 class="text-5xl font-bold">
+            <h2 class="text-3xl md:text-5xl font-bold">
                 {{ total_products }}
             </h2>
 
@@ -107,7 +107,7 @@
                 Pedidos
             </p>
 
-            <h2 class="text-5xl font-bold">
+            <h2 class="text-3xl md:text-5xl font-bold">
                 {{ total_orders }}
             </h2>
 
@@ -120,7 +120,7 @@
                 Pagados
             </p>
 
-            <h2 class="text-5xl font-bold text-white">
+            <h2 class="text-3xl md:text-5xl font-bold">
                 {{ paid_orders }}
             </h2>
 
@@ -131,7 +131,7 @@
                 Total vendido 
             </p> 
             
-            <h2 class="text-4xl font-bold text-white">
+            <h2 class="text-3xl md:text-5xl font-bold">
                 ${{ total_revenue }} 
             </h2>
         </div>
@@ -157,7 +157,9 @@
 
         </div>
 
-        <canvas id="ordersChart"></canvas>
+        <div class="max-w-md mx-auto">
+            <canvas id="ordersChart"></canvas>
+        </div>
 
     </div>
 
@@ -174,7 +176,7 @@
 
             {% for order in recent_orders %}
 
-            <div class="flex items-center justify-between bg-zinc-950 p-5 rounded-2xl">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-zinc-950 p-5 rounded-2xl">
 
                 <div>
 
@@ -232,7 +234,7 @@
 
             {% for item in low_stock %}
 
-            <div class="flex justify-between items-center bg-zinc-950 p-5 rounded-2xl">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-zinc-950 p-5 rounded-2xl">
 
                 <div>
 
