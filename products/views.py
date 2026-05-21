@@ -9,6 +9,8 @@ from django.db import transaction
 import requests
 import resend
 import os
+from django.db.models import Sum
+
 
 resend.api_key = os.environ.get("RESEND_API_KEY")
 
@@ -445,6 +447,13 @@ def dashboard(request):
 
     paid_orders = Order.objects.filter(is_paid=True).count()
 
+    total_revenue = Order.objects.filter(
+        is_paid=True
+        ).aggregate(
+            Sum('total')
+        )   ['total__sum'] or 0
+
+
     recent_orders = Order.objects.order_by('-created_at')[:5]
 
     low_stock = ProductVariant.objects.filter(stock__lt=5)
@@ -453,6 +462,7 @@ def dashboard(request):
         'total_products': total_products,
         'total_orders': total_orders,
         'paid_orders': paid_orders,
+        'total_revenue': total_revenue,
         'recent_orders': recent_orders,
         'low_stock': low_stock,
     }
