@@ -1,157 +1,319 @@
 <!DOCTYPE html>
+
 {% load static %}
-<html>
+
+<html lang="es">
+
 <head>
-    <title>NOA</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+```
+<title>NOA</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script>
-    tailwind.config = {
-    theme: {
-        extend: {
-        colors: {
-            primary: '#8B6B5A',
-            accent: '#C7A17A',
-            background: '#FFFFFF',
-            surface: '#F3ECE6',
-            soft: '#E2D5C9',
-            text: '#000000'
-        }
-        }
-    }
-    }
-    </script>
+<script src="https://cdn.tailwindcss.com"></script>
 
-    <style>
-    #home {
-        animation: fadeIn 1s ease;
-    }
+<!-- FONT PREMIUM -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    #catalogo {
-        animation: fadeIn 0.8s ease;
+<script>
+tailwind.config = {
+theme: {
+    extend: {
+
+    fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+    },
+
+    colors: {
+        primary: '#8B6B5A',
+        accent: '#C7A17A',
+        background: '#FFFFFF',
+        surface: '#F8F5F2',
+        soft: '#EFE7E0',
+        text: '#111111'
     }
 
-    html {
-        scroll-behavior: smooth;
     }
-    </style>
+}
+}
+</script>
+
+<style>
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: white;
+    color: #111111;
+}
+
+#home {
+    animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(1.01);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+</style>
+```
 
 </head>
 
 <body>
 
-<section id="home" class="relative h-screen w-full">
+<!-- HERO -->
 
-    <!-- 🔥 IMAGEN COMO FONDO -->
-    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style="background-image: url('{% static 'img/imgfondo.jpeg' %}');">
-    </div>
+<section id="home" class="relative h-screen w-full overflow-hidden">
 
-    <!-- 🔥 OVERLAY OSCURO SUAVE -->
-    <div class="absolute inset-0 bg-black/30"></div>
+```
+<!-- BACKGROUND -->
 
-    <!-- 🔥 CONTENIDO -->
-    <div class="relative z-10 h-full flex flex-col justify-center items-center text-center">
+<div class="absolute inset-0 bg-cover bg-center scale-105"
+    style="background-image: url('{% static 'img/imgfondo.jpeg' %}');">
+</div>
 
-        <!-- MARCA -->
-        <h1 class="text-6xl md:text-8xl font-light tracking-[0.3em] text-white">
-            NOA
-        </h1>
 
-        <!-- SUB -->
-        <p class="mt-6 text-white/70 text-sm tracking-widest">
-            25% POR TRANSFERENCIA - 3 CUOTAS SIN INTERÉS
-        </p>
+<!-- OVERLAY -->
 
-        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white text-xs tracking-widest animate-bounce">
-            ↓ SCROLL
-        </div>
+<div class="absolute inset-0 bg-black/40"></div>
 
-    </div>
+<div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/60"></div>
 
-</section>
 
-<!-- 🧢 NAVBAR -->
-<nav id="navbar" class="fixed top-0 left-0 w-full px-6 py-4 flex justify-between items-center z-50 transition-all duration-500">
 
-    <a href="/" class="text-lg font-light tracking-widest text-white">
+<!-- NAVBAR -->
+
+<nav id="navbar"
+     class="fixed top-0 left-0 w-full px-5 md:px-10 py-5 flex justify-between items-center z-50 transition-all duration-500 backdrop-blur-xl bg-black/10 border-b border-white/10">
+
+    <a href="/"
+       class="text-sm md:text-lg font-medium tracking-[0.4em] text-white">
+
         NOA
+
     </a>
 
-    <a href="/cart/" class="relative text-xl text-white">
+    <a href="/cart/"
+       class="relative text-xl text-white hover:scale-105 transition duration-300">
+
         🛒
+
         <span id="cart-count"
-            class="absolute -top-1 -right-2 bg-[#C7A17A] text-white text-xs px-2 py-0.5 rounded-full">
+            class="absolute -top-2 -right-3 bg-white text-black text-[10px] font-semibold px-2 py-0.5 rounded-full">
+
             {{ cart_count }}
+
         </span>
+
     </a>
 
 </nav>
 
-<!-- 🛍️ CATÁLOGO -->
-<section id="catalogo">
 
-<div class="max-w-7xl mx-auto px-4 md:px-12 py-6 md:py-14 
-            grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 
-            gap-x-4 md:gap-x-8 gap-y-6 md:gap-y-14">
 
-{% for product in products %}
-<a href="{% url 'product_detail' product.id %}" 
-   class="group block bg-[#F3ECE6] rounded-2xl p-2 md:p-3 transition duration-300 hover:shadow-md hover:-translate-y-1">
+<!-- HERO CONTENT -->
 
-    <div class="overflow-hidden rounded-xl">
-        {% if product.image %}
-        <img src="{{ product.image }}"
-             class="w-full h-[200px] md:h-[380px] object-cover transition duration-700 group-hover:scale-[1.04]">
-        {% endif %}
+<div class="relative z-10 h-full flex flex-col justify-center items-center text-center px-6">
+
+
+    <p class="text-white/60 uppercase tracking-[0.3em] text-xs md:text-sm mb-6">
+
+        Nueva colección disponible
+
+    </p>
+
+
+    <h1 class="text-6xl md:text-[11rem] leading-none font-light tracking-[0.25em] text-white">
+
+        NOA
+
+    </h1>
+
+
+    <p class="mt-8 text-white/70 text-sm tracking-[0.25em] max-w-xl leading-relaxed">
+
+        25% OFF POR TRANSFERENCIA · 3 CUOTAS SIN INTERÉS
+
+    </p>
+
+
+    <a href="#catalogo"
+       class="mt-10 border border-white/20 hover:border-white/40 text-white px-8 py-4 rounded-full text-sm tracking-[0.2em] backdrop-blur-xl bg-white/5 hover:bg-white/10 transition duration-500">
+
+        VER COLECCIÓN
+
+    </a>
+
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50 text-xs tracking-[0.3em] animate-bounce">
+
+        SCROLL
+
     </div>
 
-    <div class="mt-3 md:mt-4 px-1 space-y-1">
-        <h2 class="text-sm md:text-base font-semibold tracking-tight">
-            {{ product.name }}
+</div>
+```
+
+</section>
+
+<!-- CATÁLOGO -->
+
+<section id="catalogo"
+         class="bg-white">
+
+<div class="max-w-7xl mx-auto px-4 md:px-10 py-14 md:py-24">
+
+```
+<!-- HEADER -->
+
+<div class="mb-14 md:mb-20 flex items-end justify-between">
+
+    <div>
+
+        <p class="text-xs uppercase tracking-[0.3em] text-zinc-400 mb-4">
+
+            Colección
+
+        </p>
+
+        <h2 class="text-3xl md:text-5xl font-light tracking-tight">
+
+            Productos destacados
+
         </h2>
 
-        {% if product.variants.first %}
-        <p class="text-gray-600 text-xs md:text-sm">
-            ${{ product.variants.first.price }}
-        </p>
+    </div>
+
+</div>
+
+
+
+<!-- GRID -->
+
+<div class="grid grid-cols-2 md:grid-cols-3 gap-x-4 md:gap-x-8 gap-y-10 md:gap-y-20">
+
+
+{% for product in products %}
+
+<a href="{% url 'product_detail' product.id %}"
+   class="group block">
+
+
+    <!-- IMAGE -->
+
+    <div class="relative overflow-hidden rounded-[28px] bg-[#F8F5F2]">
+
+        {% if product.image %}
+
+        <img src="{{ product.image }}"
+             class="w-full h-[240px] md:h-[520px] object-cover transition duration-700 ease-out group-hover:scale-[1.03]">
+
         {% endif %}
+
+
+        <!-- HOVER OVERLAY -->
+
+        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition duration-500"></div>
+
+    </div>
+
+
+
+    <!-- INFO -->
+
+    <div class="mt-5 md:mt-7 px-1">
+
+
+        <div class="flex items-center justify-between gap-3">
+
+
+            <h2 class="text-sm md:text-lg font-medium tracking-tight">
+
+                {{ product.name }}
+
+            </h2>
+
+
+            {% if product.variants.first %}
+
+            <p class="text-zinc-500 text-xs md:text-sm whitespace-nowrap">
+
+                ${{ product.variants.first.price }}
+
+            </p>
+
+            {% endif %}
+
+        </div>
+
     </div>
 
 </a>
+
 {% endfor %}
 
 </div>
+```
+
+</div>
+
 </section>
+
+<!-- NAVBAR EFFECT -->
+
+<script>
+
+window.addEventListener("scroll", () => {
+
+    const navbar = document.getElementById("navbar");
+
+    if (window.scrollY > 100) {
+
+        navbar.classList.add(
+            "bg-white/80",
+            "backdrop-blur-2xl",
+            "border-black/5"
+        );
+
+        navbar.classList.remove(
+            "bg-black/10",
+            "border-white/10"
+        );
+
+    } else {
+
+        navbar.classList.remove(
+            "bg-white/80",
+            "backdrop-blur-2xl",
+            "border-black/5"
+        );
+
+        navbar.classList.add(
+            "bg-black/10",
+            "border-white/10"
+        );
+    }
+
+});
+
+</script>
+
 </body>
-<script>
-window.addEventListener("scroll", () => {
-    const navbar = document.getElementById("navbar");
 
-    if (window.scrollY > window.innerHeight * 0.7) {
-        navbar.classList.remove("hidden");
-    } else {
-        navbar.classList.add("hidden");
-    }
-});
-</script>
-<script>
-window.addEventListener("scroll", () => {
-    const navbar = document.getElementById("navbar");
-
-    if (window.scrollY > window.innerHeight * 0.6) {
-        navbar.style.background = "#8B6B5A";
-    } else {
-        navbar.style.background = "transparent";
-    }
-});
-</script>
 </html>
