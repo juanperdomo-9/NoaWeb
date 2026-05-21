@@ -21,7 +21,7 @@ class ProductImageInline(admin.TabularInline):
 
     fields = (
         'color',
-        'image',
+        'image_file',
         'image_preview',
     )
 
