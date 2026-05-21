@@ -447,6 +447,8 @@ def dashboard(request):
 
     paid_orders = Order.objects.filter(is_paid=True).count()
 
+    pending_orders = Order.objects.filter(is_paid=False).count()
+
     total_revenue = Order.objects.filter(
         is_paid=True
         ).aggregate(
@@ -462,6 +464,7 @@ def dashboard(request):
         'total_products': total_products,
         'total_orders': total_orders,
         'paid_orders': paid_orders,
+        'pending_orders': pending_orders,
         'total_revenue': total_revenue,
         'recent_orders': recent_orders,
         'low_stock': low_stock,
