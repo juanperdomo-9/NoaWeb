@@ -4,7 +4,7 @@
 
 <head>
 
-```
+
 <meta charset="UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,13 +12,13 @@
 <title>Dashboard NOA</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
-```
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
 </head>
 
 <body class="bg-black text-white min-h-screen flex">
 
-```
 <!-- SIDEBAR -->
 
 <aside class="w-72 bg-zinc-950 border-r border-zinc-800 p-8 hidden md:block">
@@ -138,6 +138,28 @@
 
     </div>
 
+    <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8 mb-10">
+
+
+        <div class="flex items-center justify-between mb-8">
+
+            <div>
+
+                <h2 class="text-3xl font-bold">
+                    Estado de pedidos
+                </h2>
+
+                <p class="text-zinc-500 mt-2">
+                    Pagados vs pendientes
+                </p>
+
+            </div>
+
+        </div>
+
+        <canvas id="ordersChart"></canvas>
+
+    </div>
 
 
     <!-- ÚLTIMOS PEDIDOS -->
@@ -242,8 +264,50 @@
 
 
 </main>
-```
+<script>
 
+    const ctx = document.getElementById('ordersChart');
+
+    new Chart(ctx, {
+        type: 'doughnut',
+
+        data: {
+
+            labels: ['Pagados', 'Pendientes'],
+
+            datasets: [{
+                data: [
+                    {{ paid_orders }},
+                    {{ pending_orders }}
+                ],
+
+                backgroundColor: [
+                    '#22c55e',
+                    '#ef4444'
+                ],
+
+                borderWidth: 0
+            }]
+        },
+
+        options: {
+
+            responsive: true,
+
+            plugins: {
+
+                legend: {
+                    labels: {
+                        color: 'white',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+</script>
 </body>
-
 </html>
