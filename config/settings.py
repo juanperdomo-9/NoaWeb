@@ -175,7 +175,7 @@ JAZZMIN_SETTINGS = {
 
     "welcome_sign": "Bienvenido al panel de administración",
 
-    "copyright": "JPWeb",
+    "copyright": "jpweb",
 
     "show_sidebar": True,
     "navigation_expanded": True,
