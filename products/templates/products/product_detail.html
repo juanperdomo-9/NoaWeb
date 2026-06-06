@@ -294,6 +294,249 @@ theme: {
 
 </div>
 
+<!-- FOOTER -->
+
+<footer
+    class="
+        relative
+        overflow-hidden
+        mt-24
+    "
+    style="
+        background: linear-gradient(
+            180deg,
+            #F8F4F1 0%,
+            #F3ECE6 100%
+        );
+        border-top: 1px solid rgba(139,107,90,0.12);
+        padding: 80px 20px 30px;
+    "
+>
+
+    <!-- GLOW -->
+
+    <div
+        style="
+            position:absolute;
+            top:-120px;
+            left:50%;
+            transform:translateX(-50%);
+            width:350px;
+            height:350px;
+            border-radius:999px;
+            background:rgba(199,161,122,.10);
+            filter:blur(90px);
+            pointer-events:none;
+        "
+    ></div>
+
+    <!-- CONTENT -->
+
+    <div
+        style="
+            position:relative;
+            z-index:2;
+            max-width:1200px;
+            margin:auto;
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+            gap:60px;
+        "
+    >
+
+        <!-- BRAND -->
+
+        <div>
+
+            <h3
+                style="
+                    font-size:30px;
+                    color:#8B6B5A;
+                    margin-bottom:18px;
+                    letter-spacing:.15em;
+                    font-weight:300;
+                "
+            >
+
+                NOA
+
+            </h3>
+
+            <p
+                style="
+                    color:#6E584B;
+                    line-height:1.8;
+                    max-width:320px;
+                "
+            >
+
+                Una colección cuidadosamente seleccionada
+                para quienes valoran los detalles,
+                el diseño y la calidad en cada pieza.
+
+            </p>
+
+        </div>
+
+        <!-- LINKS -->
+
+        <div>
+
+            <h4
+                style="
+                    margin-bottom:22px;
+                    color:#8B6B5A;
+                    font-size:13px;
+                    letter-spacing:.22em;
+                    text-transform:uppercase;
+                "
+            >
+
+                Navegación
+
+            </h4>
+
+            <div
+                style="
+                    display:flex;
+                    flex-direction:column;
+                    gap:18px;
+                "
+            >
+
+                <a
+                    href="/"
+                    style="
+                        color:#6E584B;
+                        text-decoration:none;
+                        transition:.3s;
+                    "
+                    onmouseover="this.style.color='#C7A17A'"
+                    onmouseout="this.style.color='#6E584B'"
+                >
+
+                    Inicio
+
+                </a>
+
+                <a
+                    href="#catalogo"
+                    style="
+                        color:#6E584B;
+                        text-decoration:none;
+                        transition:.3s;
+                    "
+                    onmouseover="this.style.color='#C7A17A'"
+                    onmouseout="this.style.color='#6E584B'"
+                >
+
+                    Catálogo
+
+                </a>
+
+                <a
+                    href="/cart/"
+                    style="
+                        color:#6E584B;
+                        text-decoration:none;
+                        transition:.3s;
+                    "
+                    onmouseover="this.style.color='#C7A17A'"
+                    onmouseout="this.style.color='#6E584B'"
+                >
+
+                    Carrito
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- DESARROLLO -->
+
+        <div>
+
+            <h4
+                style="
+                    margin-bottom:22px;
+                    color:#8B6B5A;
+                    font-size:13px;
+                    letter-spacing:.22em;
+                    text-transform:uppercase;
+                "
+            >
+
+                Desarrollo
+
+            </h4>
+
+            <p
+                style="
+                    color:#6E584B;
+                    line-height:1.8;
+                    max-width:320px;
+                "
+            >
+
+                Diseño y desarrollo web realizado por
+
+                <a
+                    href="https://impulsastudiodigital.com.ar/"
+                    target="_blank"
+                    style="
+                        color:#8B6B5A;
+                        font-weight:600;
+                        text-decoration:none;
+                        transition:.3s;
+                    "
+                    onmouseover="this.style.color='#C7A17A'"
+                    onmouseout="this.style.color='#8B6B5A'"
+                >
+
+                    Impulsa Studio Digital
+
+                </a>
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- BOTTOM -->
+
+    <div
+        style="
+            position:relative;
+            z-index:2;
+            max-width:1200px;
+            margin:60px auto 0;
+            padding-top:22px;
+            border-top:1px solid rgba(139,107,90,.12);
+
+            display:flex;
+            justify-content:space-between;
+            flex-wrap:wrap;
+            gap:20px;
+
+            color:#6E584B;
+            font-size:14px;
+        "
+    >
+
+        <p>
+            © 2026 NOA
+        </p>
+
+        <p>
+            Diseño atemporal. Calidad auténtica.
+        </p>
+
+    </div>
+
+</footer>
+
 <script>
 
 const isSingleSize = {{ sizes|length }} === 1;
