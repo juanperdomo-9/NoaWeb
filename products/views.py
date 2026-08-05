@@ -274,7 +274,7 @@ def create_order(request):
 
         # 🚚 ENVÍO
         if data.get('shipping') == 'correo':
-            total += 9000
+            total += 10000
 
         if data.get('payment_method') == 'transfer':
             total = total * Decimal('0.5')  # 50% de descuento
