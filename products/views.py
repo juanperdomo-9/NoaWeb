@@ -10,7 +10,7 @@ import requests
 import resend
 import os
 from django.db.models import Sum
-
+from urllib.parse import quote
 
 resend.api_key = os.environ.get("RESEND_API_KEY")
 
@@ -277,11 +277,13 @@ def create_order(request):
             total += 9000
 
         if data.get('payment_method') == 'transfer':
-            total = total * Decimal('0.75')
+            total = total * Decimal('0.5')  # 50% de descuento
+
+        if data.get('payment_method') == 'card':
+            total = total * Decimal('0.6')  # 40% de descuento    
 
         order.total = total
         order.save()
-
         # 📧 SOLO SI ES TRANSFERENCIA
         if data.get('payment_method') == "transfer":
 
@@ -431,15 +433,27 @@ def mobbex_checkout(request, order_id):
         "Content-Type": "application/json"
     }
 
-    response = requests.post(url, json=payload, headers=headers)
+    try:
+        response = requests.post(url, json=payload, headers=headers)
+        response.raise_for_status()
+    except requests.RequestException as e:
+        return JsonResponse(
+            {"error": f"Error al conectar con Mobbex: {e}"},
+            status=500
+        )
 
-    print("MOBBEX RESPONSE:", response.text)  # 🔥 DEBUG
 
     data = response.json()
 
-    return JsonResponse({
-        "url": data.get("data", {}).get("url")
-    })
+    checkout_url = data.get("data", {}).get("url")
+
+    if not checkout_url:
+        return JsonResponse(
+            {"error": "No se pudo generar el checkout de Mobbex."},
+            status=400
+        )
+
+    return JsonResponse({"url": checkout_url})
 
 def dashboard(request):
 
@@ -494,3 +508,4 @@ def dashboard_hero(request):
     return render(request, 'products/dashboard_hero.html', {
         'hero': hero
     })
+

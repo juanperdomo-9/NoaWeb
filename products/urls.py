@@ -1,6 +1,5 @@
 from django.urls import path
 from .views import product_list, product_detail, add_to_cart, cart_view, remove_from_cart, update_cart, clear_cart, checkout_view, success, create_order, transfer_view, mobbex_checkout, dashboard, dashboard_hero
-
 urlpatterns = [
     path('', product_list, name='product_list'),
     path('product/<int:id>/', product_detail, name='product_detail'),

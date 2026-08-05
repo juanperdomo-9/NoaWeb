@@ -198,11 +198,11 @@ theme: {
             </option>
 
             <option value="card">
-                Tarjeta (Mobbex)
+                Tarjeta • 40% OFF + 3 y 6 cuotas sin interés(Mobbex)
             </option>
 
             <option value="transfer">
-                Transferencia (25% OFF)
+                Transferencia (50% OFF)
             </option>
 
         </select>
@@ -295,7 +295,9 @@ theme: {
                         ${{ total }}
 
                     </h2>
-
+                    <p id="discount-text"
+                        class="mt-3 text-sm font-medium text-green-600 hidden">
+                    </p>
                 </div>
 
             </div>
@@ -756,25 +758,48 @@ function checkout() {
 document.addEventListener("DOMContentLoaded", () => {
 
     const shipping = document.getElementById("shipping");
-
+    const payment = document.getElementById("payment_method");
     const totalElement = document.getElementById("total-price");
+    const discountText = document.getElementById("discount-text");
+    const baseTotal = parseFloat(totalElement.dataset.base);
 
-    const baseTotal = parseInt(totalElement.dataset.base);
-
-
-
-    shipping.addEventListener("change", function () {
+    function updateTotal() {
 
         let total = baseTotal;
 
-        if (this.value === "correo") {
-
+        if (shipping.value === "correo") {
             total += 9000;
         }
 
-        totalElement.innerText = "$" + total;
+        discountText.classList.add("hidden");
 
-    });
+        if (payment.value === "transfer") {
+            total *= 0.5;
+
+            discountText.innerHTML =
+                "🏦 <strong>50% OFF</strong> por pago mediante transferencia bancaria.";
+
+            discountText.classList.remove("hidden");
+        }
+
+        if (payment.value === "card") {
+            total *= 0.6;
+
+            discountText.innerHTML =
+                "💳 <strong>40% OFF</strong> + hasta <strong>6 cuotas sin interés</strong> pagando con tarjeta.";
+
+            discountText.classList.remove("hidden");
+        }
+
+        totalElement.innerText =
+            "$" + Math.round(total).toLocaleString("es-AR");
+    }
+
+    shipping.addEventListener("change", updateTotal);
+    payment.addEventListener("change", updateTotal);
+
+    // Actualiza el total al cargar la página
+    updateTotal();
 
 });
 
