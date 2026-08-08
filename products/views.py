@@ -421,6 +421,12 @@ def mobbex_checkout(request, order_id):
         "description": f"Pedido #{order.id}",
         "reference": str(order.id),
         "return_url": f"https://noaonline.com.ar/success/?order_id={order.id}",
+
+        "installments": [
+            f"+uid:{settings.MOBBEX_VISA_UID}",
+            f"+uid:{settings.MOBBEX_MASTERCARD_UID}",
+        ],
+
         "customer": {
             "email": order.email,
             "name": order.name
