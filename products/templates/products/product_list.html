@@ -71,6 +71,34 @@ body {
     }
 }
 
+#catalogo-results {
+    transition: opacity .25s ease, transform .25s ease;
+}
+
+.product-card {
+    animation: cardIn .45s ease both;
+}
+
+.product-card:nth-child(2) { animation-delay: .04s; }
+.product-card:nth-child(3) { animation-delay: .08s; }
+.product-card:nth-child(4) { animation-delay: .12s; }
+.product-card:nth-child(5) { animation-delay: .16s; }
+.product-card:nth-child(6) { animation-delay: .2s; }
+.product-card:nth-child(n+7) { animation-delay: .24s; }
+
+@keyframes cardIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(16px) scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
 </style>
 
 </head>
@@ -210,6 +238,7 @@ body {
 <!-- BUSCADOR -->
 
 <form method="get" action="{% url 'product_list' %}#catalogo"
+      id="search-form"
       class="mb-6 md:mb-8">
 
     {% if category_slug %}
@@ -227,18 +256,20 @@ body {
 
         <input type="text"
                name="q"
+               id="search-input"
                value="{{ query }}"
+               autocomplete="off"
                placeholder="Buscar productos…"
                class="w-full pl-11 pr-10 py-3 rounded-full bg-[#F3ECE6] border border-[#E2D5C9]
                       text-sm text-[#111111] placeholder:text-[#8B6B5A]/50
                       focus:outline-none focus:ring-2 focus:ring-[#C7A17A]/60 transition">
 
-        {% if query %}
         <a href="{% url 'product_list' %}{% if category_slug %}?categoria={{ category_slug }}{% endif %}#catalogo"
-           class="absolute right-4 top-1/2 -translate-y-1/2 text-[#8B6B5A]/60 hover:text-[#8B6B5A] text-lg leading-none">
+           id="clear-search"
+           class="absolute right-4 top-1/2 -translate-y-1/2 text-[#8B6B5A]/60 hover:text-[#8B6B5A] text-lg leading-none transition-opacity duration-200
+                  {% if not query %}hidden{% endif %}">
             &times;
         </a>
-        {% endif %}
 
     </div>
 
@@ -250,7 +281,8 @@ body {
 <div class="flex flex-wrap gap-2 md:gap-3 mb-10 md:mb-16">
 
     <a href="{% url 'product_list' %}{% if query %}?q={{ query }}{% endif %}#catalogo"
-       class="px-5 py-2 rounded-full text-xs md:text-sm tracking-wide transition-all duration-300 border
+       data-slug=""
+       class="cat-pill px-5 py-2 rounded-full text-xs md:text-sm tracking-wide transition-all duration-300 border
               {% if not category_slug %}
               bg-[#8B6B5A] text-white border-[#8B6B5A]
               {% else %}
@@ -264,7 +296,8 @@ body {
     {% for cat in categories %}
 
     <a href="{% url 'product_list' %}?categoria={{ cat.slug }}{% if query %}&q={{ query }}{% endif %}#catalogo"
-       class="px-5 py-2 rounded-full text-xs md:text-sm tracking-wide transition-all duration-300 border
+       data-slug="{{ cat.slug }}"
+       class="cat-pill px-5 py-2 rounded-full text-xs md:text-sm tracking-wide transition-all duration-300 border
               {% if category_slug == cat.slug %}
               bg-[#8B6B5A] text-white border-[#8B6B5A]
               {% else %}
@@ -280,6 +313,10 @@ body {
 </div>
 {% endif %}
 
+<!-- RESULTADOS (buscador/categorías los reemplazan vía fetch, sin recargar la página) -->
+
+<div id="catalogo-results">
+
 <!-- SIN RESULTADOS -->
 
 {% if not products %}
@@ -294,15 +331,15 @@ body {
 
 <!-- GRID -->
 
-<div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 
-            gap-x-4 md:gap-x-8 
+<div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3
+            gap-x-4 md:gap-x-8
             gap-y-10 md:gap-y-20">
 
 
 {% for product in products %}
 
-<a href="{% url 'product_detail' product.id %}" 
-   class="group block bg-[#F3ECE6] rounded-[28px] p-2 md:p-3 transition-all duration-500 ease-out hover:shadow-2xl hover:shadow-[#8B6B5A]/10 hover:-translate-y-2">
+<a href="{% url 'product_detail' product.id %}"
+   class="product-card group block bg-[#F3ECE6] rounded-[28px] p-2 md:p-3 transition-all duration-500 ease-out hover:shadow-2xl hover:shadow-[#8B6B5A]/10 hover:-translate-y-2">
 
 
     <!-- IMAGE -->
@@ -356,6 +393,8 @@ body {
 </a>
 
 {% endfor %}
+
+</div>
 
 </div>
 
@@ -631,6 +670,119 @@ window.addEventListener("scroll", () => {
 
 });
 
+</script>
+
+<!-- BUSCADOR / CATEGORÍAS EN VIVO -->
+
+<script>
+(function () {
+
+    const resultsEl = document.getElementById('catalogo-results');
+    const searchInput = document.getElementById('search-input');
+    const searchForm = document.getElementById('search-form');
+    const clearBtn = document.getElementById('clear-search');
+    const pills = document.querySelectorAll('.cat-pill');
+
+    if (!resultsEl || !searchInput) return;
+
+    const ACTIVE = ['bg-[#8B6B5A]', 'text-white', 'border-[#8B6B5A]'];
+    const INACTIVE = ['bg-transparent', 'text-[#6E584B]', 'border-[#E2D5C9]', 'hover:border-[#8B6B5A]'];
+
+    let currentCategory = new URLSearchParams(window.location.search).get('categoria') || '';
+    let debounceTimer = null;
+    let requestToken = 0;
+
+    function setPillState(slug) {
+        pills.forEach((pill) => {
+            const isActive = (pill.dataset.slug || '') === slug;
+            pill.classList.remove(...ACTIVE, ...INACTIVE);
+            pill.classList.add(...(isActive ? ACTIVE : INACTIVE));
+        });
+    }
+
+    function toggleClear(value) {
+        if (!clearBtn) return;
+        clearBtn.classList.toggle('hidden', !value);
+    }
+
+    function buildUrl(q, categoria) {
+        const params = new URLSearchParams();
+        if (q) params.set('q', q);
+        if (categoria) params.set('categoria', categoria);
+        const qs = params.toString();
+        return window.location.pathname + (qs ? '?' + qs : '');
+    }
+
+    async function loadResults(q, categoria) {
+        const url = buildUrl(q, categoria);
+        const token = ++requestToken;
+
+        history.replaceState({}, '', url + '#catalogo');
+
+        resultsEl.style.opacity = '0.35';
+        resultsEl.style.transform = 'translateY(4px)';
+
+        try {
+            const res = await fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+            const html = await res.text();
+
+            if (token !== requestToken) return; // llegó una respuesta vieja, se descarta
+
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            const fresh = doc.getElementById('catalogo-results');
+
+            if (fresh) {
+                resultsEl.innerHTML = fresh.innerHTML;
+            }
+        } catch (err) {
+            window.location.href = url + '#catalogo';
+            return;
+        }
+
+        requestAnimationFrame(() => {
+            resultsEl.style.opacity = '1';
+            resultsEl.style.transform = 'none';
+        });
+    }
+
+    searchInput.addEventListener('input', () => {
+        toggleClear(searchInput.value.trim());
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            loadResults(searchInput.value.trim(), currentCategory);
+        }, 300);
+    });
+
+    if (searchForm) {
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            clearTimeout(debounceTimer);
+            loadResults(searchInput.value.trim(), currentCategory);
+        });
+    }
+
+    if (clearBtn) {
+        clearBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            searchInput.value = '';
+            toggleClear(false);
+            searchInput.focus();
+            clearTimeout(debounceTimer);
+            loadResults('', currentCategory);
+        });
+    }
+
+    pills.forEach((pill) => {
+        pill.addEventListener('click', (e) => {
+            e.preventDefault();
+            currentCategory = pill.dataset.slug || '';
+            setPillState(currentCategory);
+            clearTimeout(debounceTimer);
+            loadResults(searchInput.value.trim(), currentCategory);
+        });
+    });
+
+})();
 </script>
 
 </body>
