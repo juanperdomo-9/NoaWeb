@@ -1,11 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, Order, ProductVariant, HeroSection
+from .models import Product, Order, ProductVariant, HeroSection, Category
 import json
 from django.http import JsonResponse
 from django.conf import settings
 from django.core.mail import send_mail
 from decimal import Decimal
 from django.db import transaction
+from django.db.models import Q
 import requests
 import resend
 import os
@@ -15,11 +16,28 @@ from urllib.parse import quote
 resend.api_key = os.environ.get("RESEND_API_KEY")
 
 def product_list(request):
-    products = Product.objects.all()
+    products = Product.objects.all().select_related('category')
+
+    query = request.GET.get('q', '').strip()
+    category_slug = request.GET.get('categoria', '').strip()
+
+    if query:
+        products = products.filter(
+            Q(name__icontains=query) | Q(description__icontains=query)
+        )
+
+    if category_slug:
+        products = products.filter(category__slug=category_slug)
+
     hero = HeroSection.objects.filter(active=True).first()
+    categories = Category.objects.all()
+
     return render(request, 'products/product_list.html', {
         'products': products,
-        'hero': hero
+        'hero': hero,
+        'categories': categories,
+        'query': query,
+        'category_slug': category_slug,
     })
 
 

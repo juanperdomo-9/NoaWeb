@@ -1,6 +1,32 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Product, ProductVariant, Order, OrderItem, ProductImage, HeroSection
+from .models import Product, ProductVariant, Order, OrderItem, ProductImage, HeroSection, Category
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+
+    list_display = (
+        'name',
+        'slug',
+        'order',
+        'product_count',
+    )
+
+    list_editable = (
+        'order',
+    )
+
+    prepopulated_fields = {'slug': ('name',)}
+
+    search_fields = (
+        'name',
+    )
+
+    def product_count(self, obj):
+        return obj.products.count()
+
+    product_count.short_description = 'Productos'
 
 class ProductVariantInline(admin.TabularInline):
     model = ProductVariant
@@ -46,6 +72,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = (
         'image_preview',
         'name',
+        'category',
         'created_at',
     )
 
@@ -54,6 +81,7 @@ class ProductAdmin(admin.ModelAdmin):
     )
 
     list_filter = (
+        'category',
         'created_at',
     )
 
@@ -66,6 +94,7 @@ class ProductAdmin(admin.ModelAdmin):
         ("📦 Producto", {
             'fields': (
                 'name',
+                'category',
                 'description',
             )
         }),

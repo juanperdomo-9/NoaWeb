@@ -1,10 +1,38 @@
 from django.db import models
+from django.utils.text import slugify
 import cloudinary.uploader
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=110, unique=True, blank=True)
+    order = models.PositiveIntegerField(default=0, help_text='Orden en el catálogo (menor = primero)')
+
+    class Meta:
+        verbose_name = 'Categoría'
+        verbose_name_plural = 'Categorías'
+        ordering = ['order', 'name']
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
 
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
+
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='products'
+    )
 
     image = models.URLField(blank=True, null=True)
     image_file = models.ImageField(upload_to='temp/', blank=True, null=True)
