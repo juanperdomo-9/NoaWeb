@@ -1,7 +1,9 @@
 from django.urls import path
-from .views import product_list, product_detail, add_to_cart, cart_view, remove_from_cart, update_cart, clear_cart, checkout_view, success, create_order, transfer_view, mobbex_checkout, dashboard, dashboard_hero
+from .views import product_list, product_detail, add_to_cart, cart_view, remove_from_cart, update_cart, clear_cart, checkout_view, success, create_order, transfer_view, mobbex_checkout, dashboard, dashboard_hero, robots_txt, sitemap_xml
 urlpatterns = [
     path('', product_list, name='product_list'),
+    path('robots.txt', robots_txt, name='robots_txt'),
+    path('sitemap.xml', sitemap_xml, name='sitemap_xml'),
     path('product/<int:id>/', product_detail, name='product_detail'),
     path('add-to-cart/', add_to_cart, name='add_to_cart'),
     path('cart/', cart_view, name='cart_view'),

@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 
-<html>
+{% load static %}
+
+<html lang="es">
 
 <head>
 
-<title>Transferencia</title>
+<meta charset="UTF-8">
+
+<title>Transferencia | NOA</title>
+
+<meta name="robots" content="noindex, nofollow">
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+{% include 'products/partials/favicon.html' %}
 
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -52,10 +60,11 @@ theme: {
 <div class="max-w-7xl mx-auto px-4 md:px-8 py-4 md:py-5 flex justify-between items-center">
 
 
-<a href="/"
-   class="text-lg font-light tracking-[0.3em] text-white">
+<a href="/" class="inline-flex items-center">
 
-    NOA
+    <img src="{% static 'img/brand/noa-mark-white.png' %}"
+         alt="NOA"
+         class="h-8 md:h-9 w-auto">
 
 </a>
 

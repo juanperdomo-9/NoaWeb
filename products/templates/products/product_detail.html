@@ -1,12 +1,59 @@
 <!DOCTYPE html>
 
-<html>
+{% load static %}
+
+<html lang="es">
 
 <head>
 
-<title>{{ product.name }}</title>
+<meta charset="UTF-8">
+
+<title>{{ product.name }} | NOA</title>
+
+<meta name="description" content="{{ product.description|truncatewords:30 }}">
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="canonical" href="https://noaonline.com.ar/product/{{ product.id }}/">
+
+<!-- OPEN GRAPH -->
+<meta property="og:type" content="product">
+<meta property="og:site_name" content="NOA">
+<meta property="og:title" content="{{ product.name }} | NOA">
+<meta property="og:description" content="{{ product.description|truncatewords:30 }}">
+<meta property="og:url" content="https://noaonline.com.ar/product/{{ product.id }}/">
+<meta property="og:locale" content="es_AR">
+{% if product.image %}
+<meta property="og:image" content="{{ product.image }}">
+{% endif %}
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ product.name }} | NOA">
+<meta name="twitter:description" content="{{ product.description|truncatewords:30 }}">
+
+{% include 'products/partials/favicon.html' %}
+
+{% with variant=product.variants.first %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "{{ product.name|escapejs }}",
+    "description": "{{ product.description|truncatewords:30|escapejs }}",
+    {% if product.image %}"image": "{{ product.image }}",{% endif %}
+    "brand": { "@type": "Brand", "name": "NOA" }
+    {% if variant %}
+    ,"offers": {
+        "@type": "Offer",
+        "priceCurrency": "ARS",
+        "price": "{{ variant.price }}",
+        "availability": "{% if variant.stock > 0 %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+        "url": "https://noaonline.com.ar/product/{{ product.id }}/"
+    }
+    {% endif %}
+}
+</script>
+{% endwith %}
 
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -54,10 +101,11 @@ theme: {
 <div class="max-w-7xl mx-auto px-4 md:px-8 py-4 md:py-5 flex justify-between items-center">
 
 
-<a href="/"
-   class="text-lg font-light tracking-[0.3em] text-white">
+<a href="/" class="inline-flex items-center">
 
-    NOA
+    <img src="{% static 'img/brand/noa-mark-white.png' %}"
+         alt="NOA"
+         class="h-8 md:h-9 w-auto">
 
 </a>
 

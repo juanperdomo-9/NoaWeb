@@ -6,9 +6,48 @@
 
 <head>
 
-<title>NOA</title>
+<meta charset="UTF-8">
+
+<title>NOA | Indumentaria femenina online en Argentina</title>
+
+<meta name="description" content="Descubrí la colección NOA: indumentaria femenina cuidadosamente seleccionada, diseño atemporal y calidad auténtica. Comprá online con envíos a todo el país.">
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="canonical" href="https://noaonline.com.ar/">
+
+<!-- OPEN GRAPH -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="NOA">
+<meta property="og:title" content="NOA | Indumentaria femenina online en Argentina">
+<meta property="og:description" content="Diseño atemporal y calidad auténtica. Descubrí la colección completa y comprá online con envíos a todo el país.">
+<meta property="og:url" content="https://noaonline.com.ar/">
+<meta property="og:locale" content="es_AR">
+{% if hero.image %}
+<meta property="og:image" content="{{ hero.image }}">
+{% endif %}
+
+<!-- TWITTER CARD -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="NOA | Indumentaria femenina online en Argentina">
+<meta name="twitter:description" content="Diseño atemporal y calidad auténtica. Descubrí la colección completa y comprá online.">
+
+{% include 'products/partials/favicon.html' %}
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "ClothingStore",
+    "name": "NOA",
+    "url": "https://noaonline.com.ar/",
+    "logo": "https://noaonline.com.ar{% static 'img/brand/noa-mark.png' %}",
+    "description": "Indumentaria femenina online: diseño atemporal y calidad auténtica.",
+    "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "AR"
+    }
+}
+</script>
 
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -75,29 +114,26 @@ body {
     transition: opacity .25s ease, transform .25s ease;
 }
 
-.product-card {
-    animation: cardIn .45s ease both;
+/* Por defecto las cards se ven siempre (si el JS no corre, el catálogo no desaparece). */
+/* Solo se ocultan para animar cuando <body> tiene la clase js-reveal (agregada por JS). */
+
+body.js-reveal .product-card {
+    opacity: 0;
+    transform: translateY(32px) scale(.98);
+    transition: opacity .7s cubic-bezier(.16,.8,.24,1), transform .7s cubic-bezier(.16,.8,.24,1);
 }
 
-.product-card:nth-child(2) { animation-delay: .04s; }
-.product-card:nth-child(3) { animation-delay: .08s; }
-.product-card:nth-child(4) { animation-delay: .12s; }
-.product-card:nth-child(5) { animation-delay: .16s; }
-.product-card:nth-child(6) { animation-delay: .2s; }
-.product-card:nth-child(n+7) { animation-delay: .24s; }
-
-@keyframes cardIn {
-
-    from {
-        opacity: 0;
-        transform: translateY(16px) scale(.98);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+body.js-reveal .product-card.in-view {
+    opacity: 1;
+    transform: translateY(0) scale(1);
 }
+
+body.js-reveal .product-card:nth-child(2).in-view { transition-delay: .08s; }
+body.js-reveal .product-card:nth-child(3).in-view { transition-delay: .16s; }
+body.js-reveal .product-card:nth-child(4).in-view { transition-delay: .06s; }
+body.js-reveal .product-card:nth-child(5).in-view { transition-delay: .14s; }
+body.js-reveal .product-card:nth-child(6).in-view { transition-delay: .22s; }
+body.js-reveal .product-card:nth-child(n+7).in-view { transition-delay: .1s; }
 
 </style>
 
@@ -130,9 +166,11 @@ body {
      class="fixed top-0 left-0 w-full px-6 md:px-10 py-5 flex justify-between items-center z-50 transition-all duration-500 backdrop-blur-xl bg-black/10 border-b border-white/10">
 
     <a href="/"
-       class="text-lg font-light tracking-[0.3em] text-white">
+       class="inline-flex items-center">
 
-        NOA
+        <img src="{% static 'img/brand/noa-mark-white.png' %}"
+             alt="NOA"
+             class="h-8 md:h-9 w-auto">
 
     </a>
 
@@ -683,7 +721,44 @@ window.addEventListener("scroll", () => {
     const clearBtn = document.getElementById('clear-search');
     const pills = document.querySelectorAll('.cat-pill');
 
-    if (!resultsEl || !searchInput) return;
+    if (!resultsEl) return;
+
+    // Efecto de aparición de las cards al entrar en pantalla (scroll reveal)
+    document.body.classList.add('js-reveal');
+
+    const cardObserver = ('IntersectionObserver' in window)
+        ? new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    cardObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' })
+        : null;
+
+    function observeCards() {
+        const cards = resultsEl.querySelectorAll('.product-card:not(.in-view)');
+        cards.forEach((card) => {
+            if (cardObserver) {
+                cardObserver.observe(card);
+            } else {
+                card.classList.add('in-view');
+            }
+        });
+    }
+
+    observeCards();
+
+    // Red de seguridad: si por lo que sea el observer no revela alguna card
+    // (navegador viejo, tab en background, etc.), se muestra igual.
+    setTimeout(() => {
+        resultsEl.querySelectorAll('.product-card:not(.in-view)').forEach((card) => {
+            card.classList.add('in-view');
+        });
+    }, 4000);
+
+    if (!searchInput) return;
 
     const ACTIVE = ['bg-[#8B6B5A]', 'text-white', 'border-[#8B6B5A]'];
     const INACTIVE = ['bg-transparent', 'text-[#6E584B]', 'border-[#E2D5C9]', 'hover:border-[#8B6B5A]'];
@@ -733,6 +808,7 @@ window.addEventListener("scroll", () => {
 
             if (fresh) {
                 resultsEl.innerHTML = fresh.innerHTML;
+                observeCards();
             }
         } catch (err) {
             window.location.href = url + '#catalogo';

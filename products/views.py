@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Product, Order, ProductVariant, HeroSection, Category
 import json
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.conf import settings
 from django.core.mail import send_mail
 from decimal import Decimal
@@ -511,6 +511,41 @@ def dashboard(request):
     }
 
     return render(request, 'products/dashboard.html', context)
+
+def robots_txt(request):
+    lines = [
+        "User-agent: *",
+        "Allow: /",
+        "Disallow: /cart/",
+        "Disallow: /checkout/",
+        "Disallow: /create-order/",
+        "Disallow: /transfer/",
+        "Disallow: /success/",
+        "Disallow: /dashboard/",
+        "Disallow: /admin/",
+        "",
+        "Sitemap: https://noaonline.com.ar/sitemap.xml",
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
+
+
+def sitemap_xml(request):
+    base = "https://noaonline.com.ar"
+
+    entries = [f"{base}/"]
+    for product in Product.objects.all():
+        entries.append(f"{base}/product/{product.id}/")
+
+    xml = ['<?xml version="1.0" encoding="UTF-8"?>',
+           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+
+    for url in entries:
+        xml.append(f"  <url><loc>{url}</loc></url>")
+
+    xml.append('</urlset>')
+
+    return HttpResponse("\n".join(xml), content_type="application/xml")
+
 
 def dashboard_hero(request):
 
