@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Ingresar | Panel NOA</title>
+
+<meta name="robots" content="noindex, nofollow">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{% include 'products/partials/favicon.html' %}
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-black text-white min-h-screen flex items-center justify-center p-6">
+
+<div class="w-full max-w-sm">
+
+    <div class="flex justify-center mb-8">
+        <img src="{% static 'img/brand/noa-mark-white.png' %}" alt="NOA" class="h-12 w-auto">
+    </div>
+
+    <div class="bg-zinc-950 border border-zinc-800 rounded-3xl p-8">
+
+        <h1 class="text-xl font-bold mb-1">Panel de NOA</h1>
+        <p class="text-zinc-500 text-sm mb-6">Ingresá para gestionar pedidos y productos.</p>
+
+        {% if form.errors %}
+        <div class="bg-red-950 border border-red-800 text-red-300 text-sm rounded-xl p-3 mb-5">
+            Usuario o contraseña incorrectos.
+        </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <label class="block text-xs text-zinc-500 mb-2 uppercase tracking-wide">Usuario</label>
+            <input type="text" name="username" autofocus required
+                   class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 mb-4 text-white focus:outline-none focus:border-zinc-600">
+
+            <label class="block text-xs text-zinc-500 mb-2 uppercase tracking-wide">Contraseña</label>
+            <input type="password" name="password" required
+                   class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 mb-6 text-white focus:outline-none focus:border-zinc-600">
+
+            <input type="hidden" name="next" value="{{ next }}">
+
+            <button type="submit"
+                    class="w-full bg-white text-black font-semibold rounded-xl py-3 hover:bg-zinc-200 transition">
+                Ingresar
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

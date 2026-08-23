@@ -1,6 +1,12 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
 from .views import product_list, product_detail, add_to_cart, cart_view, remove_from_cart, update_cart, clear_cart, checkout_view, success, create_order, transfer_view, mobbex_checkout, dashboard, dashboard_hero, robots_txt, sitemap_xml
 urlpatterns = [
+    path('dashboard/login/', auth_views.LoginView.as_view(
+        template_name='products/dashboard_login.html',
+        redirect_authenticated_user=True,
+    ), name='dashboard_login'),
+    path('dashboard/logout/', auth_views.LogoutView.as_view(), name='dashboard_logout'),
     path('', product_list, name='product_list'),
     path('robots.txt', robots_txt, name='robots_txt'),
     path('sitemap.xml', sitemap_xml, name='sitemap_xml'),

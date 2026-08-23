@@ -156,14 +156,14 @@ class OrderAdmin(admin.ModelAdmin):
         'city',
         'total',
         'payment_method',
-        'is_paid',
-        'payment_status',
+        'status',
+        'status_badge',
         'created_at',
     )
 
     list_filter = (
         'payment_method',
-        'is_paid',
+        'status',
         'created_at',
     )
 
@@ -174,23 +174,26 @@ class OrderAdmin(admin.ModelAdmin):
     )
 
     list_editable = (
-        'is_paid',
+        'status',
     )
 
     inlines = [OrderItemInline]
 
-    def payment_status(self, obj):
+    STATUS_COLORS = {
+        Order.STATUS_PAGADO: ('#1F7A3F', '✅ Pagado'),
+        Order.STATUS_PENDIENTE: ('#B45309', '⏳ Pendiente'),
+        Order.STATUS_PREPARACION: ('#1D4ED8', '📦 Preparación en curso'),
+        Order.STATUS_CANCELADO: ('#B91C1C', '❌ Cancelado'),
+    }
 
-        if obj.is_paid:
-            return format_html(
-                '<span style="color:green;font-weight:bold;">✅ Pagado</span>'
-            )
-
+    def status_badge(self, obj):
+        color, label = self.STATUS_COLORS.get(obj.status, ('#666', obj.status))
         return format_html(
-            '<span style="color:red;font-weight:bold;">❌ Pendiente</span>'
+            '<span style="color:{};font-weight:bold;">{}</span>',
+            color, label
         )
 
-    payment_status.short_description = 'Estado pago'
+    status_badge.short_description = 'Estado'
 
 @admin.register(HeroSection)
 class HeroSectionAdmin(admin.ModelAdmin):

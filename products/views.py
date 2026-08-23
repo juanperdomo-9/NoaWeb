@@ -7,11 +7,14 @@ from django.core.mail import send_mail
 from decimal import Decimal
 from django.db import transaction
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required, user_passes_test
 import requests
 import resend
 import os
 from django.db.models import Sum
 from urllib.parse import quote
+
+staff_required = user_passes_test(lambda u: u.is_active and u.is_staff, login_url='dashboard_login')
 
 resend.api_key = os.environ.get("RESEND_API_KEY")
 
@@ -368,6 +371,9 @@ def success(request):
             # 👉 solo si fue tarjeta
             if order.payment_method == "card":
 
+                order.status = Order.STATUS_PAGADO
+                order.save(update_fields=['status'])
+
                 items_text = ""
                 for item in order.items.all():
                     items_text += f"- {item.product_name} ({item.color}/{item.size}) x{item.quantity} → ${item.price}\n"
@@ -479,18 +485,19 @@ def mobbex_checkout(request, order_id):
 
     return JsonResponse({"url": checkout_url})
 
+@staff_required
 def dashboard(request):
 
     total_products = Product.objects.count()
 
     total_orders = Order.objects.count()
 
-    paid_orders = Order.objects.filter(is_paid=True).count()
+    paid_orders = Order.objects.filter(status=Order.STATUS_PAGADO).count()
 
-    pending_orders = Order.objects.filter(is_paid=False).count()
+    pending_orders = Order.objects.filter(status=Order.STATUS_PENDIENTE).count()
 
     total_revenue = Order.objects.filter(
-        is_paid=True
+        status=Order.STATUS_PAGADO
         ).aggregate(
             Sum('total')
         )   ['total__sum'] or 0
@@ -547,6 +554,7 @@ def sitemap_xml(request):
     return HttpResponse("\n".join(xml), content_type="application/xml")
 
 
+@staff_required
 def dashboard_hero(request):
 
     hero = HeroSection.objects.first()

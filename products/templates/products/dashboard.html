@@ -64,6 +64,19 @@
 
         </a>
 
+        <form method="post" action="{% url 'dashboard_logout' %}">
+
+            {% csrf_token %}
+
+            <button type="submit"
+                    class="w-full text-left whitespace-nowrap hover:bg-zinc-900 transition p-4 rounded-2xl text-zinc-500 hover:text-white">
+
+                🚪 Cerrar sesión
+
+            </button>
+
+        </form>
+
     </nav>
 
 </aside>
@@ -203,18 +216,14 @@
                         ${{ order.total }}
                     </p>
 
-                    {% if order.is_paid %}
-
-                    <p class="text-green-400 text-sm">
-                        Pagado
-                    </p>
-
+                    {% if order.status == 'pagado' %}
+                    <p class="text-green-400 text-sm">✅ Pagado</p>
+                    {% elif order.status == 'preparacion' %}
+                    <p class="text-blue-400 text-sm">📦 Preparación en curso</p>
+                    {% elif order.status == 'cancelado' %}
+                    <p class="text-red-400 text-sm">❌ Cancelado</p>
                     {% else %}
-
-                    <p class="text-red-400 text-sm">
-                        Pendiente
-                    </p>
-
+                    <p class="text-orange-400 text-sm">⏳ Pendiente</p>
                     {% endif %}
 
                 </div>
