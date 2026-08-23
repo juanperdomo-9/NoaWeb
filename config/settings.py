@@ -86,8 +86,16 @@ DATABASE_URL = os.environ.get("DATABASE_URL")
 
 if DATABASE_URL:
     DATABASES = {
-        'default': dj_database_url.parse(DATABASE_URL)
+        'default': dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=0,  # el pooler de Neon ya administra las conexiones
+            ssl_require=True,
+        )
     }
+    # channel_binding puede colgar la conexión con algunas builds de libpq/psycopg2;
+    # sslmode=require ya cifra la conexión, así que lo sacamos si viene en la URL.
+    DATABASES['default'].setdefault('OPTIONS', {})
+    DATABASES['default']['OPTIONS'].pop('channel_binding', None)
 else:
     DATABASES = {
         'default': {
